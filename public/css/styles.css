@@ -63,7 +63,7 @@ nav ul li{
 
 .hero{
   background-image: url('/images/vehicles/delorean.jpg');
-  background-size: 400px 300px;
+  background-size: 400px 250px;
   background-repeat: no-repeat;
   background-position: center;
   height: 400px;
@@ -153,11 +153,17 @@ h1{
   place-items: center;
 }
 
+.upgrades>div>div{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .upgrades>div figure{
   background-color: var(--secondary-color); 
   width: 200px;
   height: 200px;
-
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -165,11 +171,8 @@ h1{
   align-items: center;
 }
 
-figcaption{
-  text-align: center;
-}
-
-figcaption a{
+.upgrades>div a {
+  margin-top: 0.5rem;
   text-decoration: none;
   color: var(--text-color);
   font-weight: 700;
@@ -207,7 +210,7 @@ figcaption a{
     padding: 1rem;
     margin: 0 auto;
     place-items: start;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
   }
 
   .upgrades{
