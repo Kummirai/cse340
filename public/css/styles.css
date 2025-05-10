@@ -59,7 +59,7 @@ nav ul li{
   margin: 0 1rem;
 }
 
-.upgrades div{
+.upgrades>div{
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
@@ -68,7 +68,7 @@ nav ul li{
   place-items: center;
 }
 
-.upgrades div figure{
+.upgrades>div figure{
   background-color: var(--secondary-color);
   width: 200px;
   height: 200px;
@@ -80,8 +80,10 @@ nav ul li{
   align-items: center;
 }
 
-upgrades div figure img{
-  width: 100%;
-  height: auto;
-  object-fit: cover;
+figcaption{
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-top: 0.4rem;
 }
