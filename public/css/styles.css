@@ -5,6 +5,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+   font-family: "Montserrat", sans-serif;
 }
 
 :root{
@@ -16,7 +17,7 @@
 
 
 #top-header{
-  padding: 2rem 0;
+  padding: 2rem 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -27,6 +28,7 @@
   font-weight: 700;
   color: var(--text-color);
   text-decoration: none;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
 #tools a{
@@ -59,6 +61,48 @@ nav ul li{
   margin: 0 1rem;
 }
 
+.hero{
+  background-image: url('/images/vehicles/delorean-tn.jpg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+h1{
+  margin: 1rem 0 0 1.5rem;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-color);
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.featured{
+ display: flex;
+ flex-direction: column;
+ margin: 1rem 0 1rem 1.5rem;
+}
+
+.featured h2{
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.featured li{
+  list-style: none;
+  margin: 0.5rem 0;
+}
+
+.upgrades{
+  margin: 1rem 0 0 ;
+}
+
+.upgrades h2{
+  margin-left: 1.5rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
 .upgrades>div{
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -69,7 +113,7 @@ nav ul li{
 }
 
 .upgrades>div figure{
-  background-color: var(--secondary-color);
+  background-color: var(--secondary-color); 
   width: 200px;
   height: 200px;
 
@@ -82,8 +126,12 @@ nav ul li{
 
 figcaption{
   text-align: center;
-  font-size: 0.8rem;
-  font-weight: 700;
+}
+
+figcaption a{
+  text-decoration: none;
   color: var(--text-color);
-  margin-top: 0.4rem;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
