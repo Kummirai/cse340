@@ -62,11 +62,11 @@ nav ul li{
 }
 
 .hero{
-  background-image: url('/images/vehicles/delorean-tn.jpg');
-  background-size: contain;
+  background-image: url('/images/vehicles/delorean.jpg');
+  background-size: 400px 300px;
   background-repeat: no-repeat;
   background-position: center;
-  height: 300px;
+  height: 400px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -79,7 +79,7 @@ nav ul li{
   padding: 1rem;
   text-align: left;
   position: absolute;
-  top: 1.5rem;
+  top: 7rem;
   left: 1.5rem;
 }
 
@@ -108,11 +108,16 @@ nav ul li{
 }
 
 h1{
-  margin: 1rem 0 0 1.5rem;
+  margin: 2rem 0 0 1.5rem;
   font-size: 2rem;
   font-weight: 700;
   color: var(--text-color);
   text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.featured_upgrades{
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 .featured{
@@ -131,7 +136,7 @@ h1{
 }
 
 .upgrades{
-  margin: 1rem 0 0 ;
+  margin: 2rem 0 1rem 0;
 }
 
 .upgrades h2{
@@ -170,4 +175,63 @@ figcaption a{
   font-weight: 700;
   font-size: 0.8rem;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+@media screen and (min-width: 768px) {
+
+  .wrapper{
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  h1{
+    margin: 2rem 0 0 1.5rem;
+  }
+
+  .hero{
+    background-image: url('/images/vehicles/delorean.jpg');
+    background-position: center;
+    background-size: auto 400px;
+    height: 500px;
+  }
+
+  .hero>div{
+    top: 5rem;
+    left: 1.5rem;
+  }
+
+  .featured_upgrades{  
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    padding: 1rem;
+    margin: 0 auto;
+    place-items: start;
+    margin-bottom: 2rem;
+  }
+
+  .upgrades{
+    margin: 1rem 0 1rem 0;
+  }
+
+  .upgrades>div{
+    margin: 0 auto;
+  }
+
+  .featured li{
+    list-style: disc;
+    padding: 0.5rem 0;
+  }
+
+
+  .upgrades>div figure{
+  background-color: var(--secondary-color); 
+  width: 350px;
+  height: 100px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  }
 }
