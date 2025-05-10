@@ -70,7 +70,43 @@ nav ul li{
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
+
+.hero>div{
+  background-color: rgba(0,0,0,0.5);
+  color: var(--secondary-color);
+  padding: 1rem;
+  text-align: left;
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+}
+
+.hero>div h2{
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  margin-bottom: 0.5rem;
+}
+
+.hero>div p{
+  font-size: 1rem;
+  font-weight: 400;
+  margin-bottom: 0.2rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.hero>div button{
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
 h1{
   margin: 1rem 0 0 1.5rem;
   font-size: 2rem;
