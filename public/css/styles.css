@@ -3,4 +3,58 @@
 *:before,
 *:after {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root{
+  --primary-color: #4CAF50;
+  --secondary-color: #f1f1f1;
+  --text-color: #333;
+  --font-family: 'Arial', sans-serif;
+}
+
+
+#top-header{
+  padding: 2rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.siteName a{
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+#tools a{
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+nav{
+  background-color: var(--text-color);
+  color: var(--secondary-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.3rem 0;
+}
+
+ul{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem 0;
+}
+
+ul li{
+  display: block;
+  list-style: none;
+  margin: 0 1rem;
 }
