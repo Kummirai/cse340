@@ -45,7 +45,7 @@ nav{
   padding: 0.3rem 0;
 }
 
-ul{
+nav ul{
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -53,8 +53,35 @@ ul{
   padding: 0.5rem 0;
 }
 
-ul li{
+nav ul li{
   display: block;
   list-style: none;
   margin: 0 1rem;
+}
+
+.upgrades div{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+  margin: 0 auto;
+  place-items: center;
+}
+
+.upgrades div figure{
+  background-color: var(--secondary-color);
+  width: 200px;
+  height: 200px;
+
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+upgrades div figure img{
+  width: 100%;
+  height: auto;
+  object-fit: cover;
 }
