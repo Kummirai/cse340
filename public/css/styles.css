@@ -224,7 +224,7 @@ h1{
   }
 
   .upgrades>div{
-    width: 600px;
+    max-width: 600px;
    display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
