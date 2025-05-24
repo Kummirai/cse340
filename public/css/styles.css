@@ -72,6 +72,10 @@ nav ul li a {
   color: var(--secondary-color);
 }
 
+main {
+  margin-bottom: 20px;
+}
+
 .hero {
   background-image: url("/images/vehicles/delorean.jpg");
   background-size: 400px 250px;
@@ -352,6 +356,10 @@ footer {
   position: absolute;
   bottom: 10px;
   left: 10px;
+  background-color: var(--text-color);
+  color: var(--secondary-color);
+  width: 100%;
+  padding: 10px;
 }
 
 /* Responsive Design */
