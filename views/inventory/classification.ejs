@@ -1,3 +1,15 @@
-<%# messages() %> <% if (title) { %>
-<h1><%= title %></h1>
-<% } else { res.redirect('/') } %> <%- grid %>
+<%- include('../layouts/header') %> <%# Display flash messages if any %> <%-
+messages() %> <% if (title) { %>
+<div class="classification-header">
+  <h1><%= title %></h1>
+</div>
+
+<% if (grid && grid.length > 0) { %>
+<div class="vehicle-container"><%- grid %></div>
+<% } else { %>
+<p>No vehicles found in this classification.</p>
+<% } %> <% } else { %>
+<script>
+  window.location.href = "/";
+</script>
+<% } %> <%- include('../layouts/footer') %>
