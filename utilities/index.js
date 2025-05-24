@@ -103,7 +103,6 @@ Util.buildVehicleDetailHTML = async function (vehicle) {
           <h3>Specifications</h3>
           <ul>
             <li><strong>Color:</strong> ${vehicle.inv_color}</li>
-            <li><strong>Condition:</strong> ${vehicle.inv_condition}</li>
           </ul>
         </div>
       </div>
