@@ -11,7 +11,7 @@ Util.getNav = async function () {
   data.rows.forEach((row) => {
     list += "<li>";
     list +=
-      '<a href="/inv/classification/' + // Matches your URL pattern
+      '<a href="/inv/classification/' + 
       row.classification_id +
       '" title="See our inventory of ' +
       row.classification_name +

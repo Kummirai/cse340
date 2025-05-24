@@ -1,6 +1,6 @@
 const invModel = require("../models/inventory-model");
 const utilities = require("../utilities/");
-const pool = require("../database/"); // Make sure to import your database pool
+const pool = require("../database/"); 
 
 const invCont = {};
 
@@ -67,7 +67,7 @@ invCont.getInventoryByClassificationId = async function (classification_id) {
     return data.rows;
   } catch (error) {
     console.error("getInventoryByClassificationId error " + error);
-    throw error; // Re-throw to handle in calling function
+    throw error; 
   }
 };
 
