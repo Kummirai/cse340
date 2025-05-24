@@ -30,7 +30,7 @@ app.set("layout", "./layouts/layouts");
  * Routes
  *************************/
 app.use(static);
-app.use("/inventory", inventoryRoute);
+app.use("/inv", inventoryRoute);
 app.get("/", baseController.buildHome);
 
 /* ***********************

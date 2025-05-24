@@ -4,14 +4,14 @@ const Util = {};
 /* ************************
  * Constructs the nav HTML unordered list
  ************************** */
-Util.getNav = async function() {
+Util.getNav = async function () {
   let data = await invModel.getClassifications();
   let list = "<ul>";
   list += '<li><a href="/" title="Home page">Home</a></li>';
   data.rows.forEach((row) => {
     list += "<li>";
     list +=
-      '<a href="/inv/classification/' + 
+      '<a href="/inv/classification/' + // Matches your URL pattern
       row.classification_id +
       '" title="See our inventory of ' +
       row.classification_name +
@@ -30,7 +30,7 @@ Util.getNav = async function() {
 Util.buildClassificationGrid = async function (data) {
   let grid;
   if (data.length > 0) {
-    grid = '<ul id="inv-display">';
+    grid = '<ul id="inv-display" class="vehicle-container">';
     data.forEach((vehicle) => {
       grid += "<li>";
       grid +=
