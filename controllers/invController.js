@@ -71,4 +71,40 @@ invCont.getInventoryByClassificationId = async function (classification_id) {
   }
 };
 
+/* ***************************
+ *  Build vehicle detail view
+ * ************************** */
+invCont.buildVehicleDetail = async function (req, res, next) {
+  try {
+    const inv_id = req.params.invId;
+    const vehicle = await invModel.getInventoryItemById(inv_id);
+
+    if (!vehicle) {
+      req.flash("notice", "Vehicle not found");
+      return res.redirect("/inv");
+    }
+
+    const detailHTML = await utilities.buildVehicleDetailHTML(vehicle);
+    let nav = await utilities.getNav();
+
+    res.render("./inventory/detail", {
+      title: `${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}`,
+      nav,
+      detailHTML,
+    });
+  } catch (error) {
+    console.error("buildVehicleDetail error: " + error);
+    next(error);
+  }
+};
+
+//Error handling route for testing purposes
+invCont.triggerError = async function (req, res, next) {
+  try {
+    throw new Error("This is a test 500 error");
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = invCont;

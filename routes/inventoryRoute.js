@@ -9,7 +9,13 @@ router.get(
   invController.buildByClassificationId
 );
 
+//Route to build vehicle detail view
+router.get("/detail/:invId", invController.buildVehicleDetail);
+
 // Route to get classifications
 router.get("/get-classifications", invController.getClassifications);
+
+//Route to trigger an error for testing
+router.get("/trigger-error", invController.triggerError);
 
 module.exports = router;

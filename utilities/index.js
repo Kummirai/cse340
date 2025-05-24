@@ -77,4 +77,39 @@ Util.buildClassificationGrid = async function (data) {
   return grid;
 };
 
+Util.buildVehicleDetailHTML = async function (vehicle) {
+  let html = `
+    <div class="vehicle-detail">
+      <div class="vehicle-image">
+        <img src="${vehicle.inv_image}" alt="${vehicle.inv_make} ${
+    vehicle.inv_model
+  }">
+      </div>
+      <div class="vehicle-info">
+        <h2>${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}</h2>
+        <div class="price-mileage">
+          <p class="price">$${new Intl.NumberFormat("en-US").format(
+            vehicle.inv_price
+          )}</p>
+          <p class="mileage">${new Intl.NumberFormat("en-US").format(
+            vehicle.inv_miles
+          )} miles</p>
+        </div>
+        <div class="vehicle-description">
+          <h3>Description</h3>
+          <p>${vehicle.inv_description}</p>
+        </div>
+        <div class="vehicle-specs">
+          <h3>Specifications</h3>
+          <ul>
+            <li><strong>Color:</strong> ${vehicle.inv_color}</li>
+            <li><strong>Condition:</strong> ${vehicle.inv_condition}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  `;
+  return html;
+};
+
 module.exports = Util;
