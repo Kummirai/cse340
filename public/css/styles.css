@@ -370,6 +370,10 @@ footer {
     flex-direction: column;
     gap: 0.5rem;
   }
+
+  .detail-container{
+    margin-bottom: 30px;
+  }
 }
 
 /* Responsive adjustments */
