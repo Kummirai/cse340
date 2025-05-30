@@ -33,22 +33,21 @@ app.use(static);
 app.use("/inv", inventoryRoute);
 app.get("/", baseController.buildHome);
 
-/* ***********************
- * Error Handling
- *************************/
-app.use(async (req, res) => {
-  res.status(404).render("404", {
-    title: "404 Not Found",
-    nav: await utilities.getNav(),
-  });
+app.use(async (req, res, next) => {
+  next({ status: 404, message: "Sorry we appear to have lost the page!" });
 });
 
+/* ***********************
+ * Express Error Handler
+ * Place after all other middleware
+ *************************/
 app.use(async (err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).render("500", {
-    title: "500 Server Error",
-    nav: await utilities.getNav(),
-    error: process.env.NODE_ENV === "development" ? err : null,
+  let nav = await utilities.getNav();
+  console.error(`Error at: "${req.originalUrl}": ${err.message}`);
+  res.render("errors/error", {
+    title: err.status || "Server Error",
+    message: err.message,
+    nav,
   });
 });
 
