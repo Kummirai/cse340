@@ -11,7 +11,7 @@ Util.getNav = async function () {
   data.rows.forEach((row) => {
     list += "<li>";
     list +=
-      '<a href="/inv/classification/' + 
+      '<a href="/inv/classification/' +
       row.classification_id +
       '" title="See our inventory of ' +
       row.classification_name +
@@ -77,6 +77,9 @@ Util.buildClassificationGrid = async function (data) {
   return grid;
 };
 
+/* **************************************
+ * Detail view HTML
+ * ************************************ */
 Util.buildVehicleDetailHTML = async function (vehicle) {
   let html = `
     <div class="vehicle-detail">
