@@ -11,7 +11,7 @@ Util.getNav = async function () {
   data.rows.forEach((row) => {
     list += "<li>";
     list +=
-      '<a href="/inv/classification/' + 
+      '<a href="/inv/classification/' +
       row.classification_id +
       '" title="See our inventory of ' +
       row.classification_name +
@@ -77,6 +77,9 @@ Util.buildClassificationGrid = async function (data) {
   return grid;
 };
 
+/* **************************************
+ * Detail view HTML
+ * ************************************ */
 Util.buildVehicleDetailHTML = async function (vehicle) {
   let html = `
     <div class="vehicle-detail">
@@ -86,11 +89,11 @@ Util.buildVehicleDetailHTML = async function (vehicle) {
   }">
       </div>
       <div class="vehicle-info">
-        <h2>${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}</h2>
+        <h1>${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}</h1>
         <div class="price-mileage">
-          <p class="price">$${new Intl.NumberFormat("en-US").format(
+          <h2 class="price">$${new Intl.NumberFormat("en-US").format(
             vehicle.inv_price
-          )}</p>
+          )}</h2>
           <p class="mileage">${new Intl.NumberFormat("en-US").format(
             vehicle.inv_miles
           )} miles</p>
@@ -110,5 +113,8 @@ Util.buildVehicleDetailHTML = async function (vehicle) {
   `;
   return html;
 };
+
+Util.handleErrors = (fn) => (req, res, next) =>
+  Promise.resolve(fn(req, res, next)).catch(next);
 
 module.exports = Util;

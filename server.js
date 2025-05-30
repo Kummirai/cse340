@@ -31,24 +31,31 @@ app.set("layout", "./layouts/layouts");
  *************************/
 app.use(static);
 app.use("/inv", inventoryRoute);
-app.get("/", baseController.buildHome);
+app.get("/", utilities.handleErrors(baseController.buildHome));
 
-/* ***********************
- * Error Handling
- *************************/
-app.use(async (req, res) => {
-  res.status(404).render("404", {
-    title: "404 Not Found",
-    nav: await utilities.getNav(),
-  });
+app.use(async (req, res, next) => {
+  next({ status: 404, message: "Sorry we appear to have lost the page!" });
 });
 
+/* ***********************
+ * Express Error Handler
+ * Place after all other middleware
+ *************************/
 app.use(async (err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).render("500", {
-    title: "500 Server Error",
-    nav: await utilities.getNav(),
-    error: process.env.NODE_ENV === "development" ? err : null,
+  const nav = await utilities.getNav();
+  const status = err.status || 500; // Default to 500 if no status
+
+  console.error(`💥 Error (${status}) at ${req.originalUrl}:`, err.message);
+
+  const messages = {
+    404: "The page you requested doesn't exist.",
+    500: "Something went wrong on our end. We're working on it!",
+  };
+
+  res.status(status).render("errors/error", {
+    title: `${status} - ${status === 404 ? "Not Found" : "Server Error"}`,
+    message: messages[status] || err.message,
+    nav,
   });
 });
 

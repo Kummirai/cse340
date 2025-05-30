@@ -9,7 +9,7 @@
 }
 
 :root {
-  --primary-color: #4caf50;
+  --primary-color: #970505;
   --secondary-color: #f1f1f1;
   --text-color: #333;
   --font-family: "Arial", sans-serif;
@@ -18,6 +18,7 @@
 .wrapper {
   display: flex;
   flex-direction: column;
+  align-content: space-between;
   min-height: 100vh;
   position: relative;
 }
@@ -73,7 +74,8 @@ nav ul li a {
 }
 
 main {
-  margin-bottom: 20px;
+  margin: 20px 0;
+  flex-grow: 1;
 }
 
 .hero {
@@ -123,7 +125,6 @@ main {
 }
 
 h1 {
-  margin: 2rem 0 0 1.5rem;
   font-size: 2rem;
   font-weight: 700;
   color: var(--text-color);
@@ -295,6 +296,7 @@ h1 {
 .vehicle-detail {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  align-items: flex-end;
   gap: 2rem;
   padding: 2rem;
 }
@@ -314,6 +316,7 @@ h1 {
 
 .price-mileage {
   display: flex;
+  flex-direction: column;
   gap: 2rem;
   margin-bottom: 1.5rem;
 }
@@ -327,7 +330,6 @@ h1 {
 .mileage {
   font-size: 1.2rem;
   color: #666;
-  align-self: flex-end;
 }
 
 .vehicle-description {
@@ -353,13 +355,7 @@ h1 {
 }
 
 footer {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  background-color: var(--text-color);
-  color: var(--secondary-color);
-  width: 100%;
-  padding: 10px;
+  margin: 30px;
 }
 
 /* Responsive Design */
@@ -372,6 +368,10 @@ footer {
   .price-mileage {
     flex-direction: column;
     gap: 0.5rem;
+  }
+
+  .detail-container {
+    margin-bottom: 30px;
   }
 }
 
@@ -403,7 +403,7 @@ footer {
   }
 
   h1 {
-    margin: 2rem 0 0 1.5rem;
+    margin: 2rem 0 0 0;
   }
 
   .hero {
