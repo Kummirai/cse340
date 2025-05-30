@@ -18,6 +18,7 @@
 .wrapper {
   display: flex;
   flex-direction: column;
+  align-content: space-between;
   min-height: 100vh;
   position: relative;
 }
@@ -74,6 +75,7 @@ nav ul li a {
 
 main {
   margin: 20px 0;
+  flex-grow: 1;
 }
 
 .hero {
@@ -353,10 +355,7 @@ h1 {
 }
 
 footer {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  padding: 10px;
+  margin: 30px;
 }
 
 /* Responsive Design */
@@ -371,7 +370,7 @@ footer {
     gap: 0.5rem;
   }
 
-  .detail-container{
+  .detail-container {
     margin-bottom: 30px;
   }
 }
