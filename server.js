@@ -31,7 +31,7 @@ app.set("layout", "./layouts/layouts");
  *************************/
 app.use(static);
 app.use("/inv", inventoryRoute);
-app.get("/", baseController.buildHome);
+app.get("/", utilities.handleErrors(baseController.buildHome));
 
 app.use(async (req, res, next) => {
   next({ status: 404, message: "Sorry we appear to have lost the page!" });
@@ -42,11 +42,19 @@ app.use(async (req, res, next) => {
  * Place after all other middleware
  *************************/
 app.use(async (err, req, res, next) => {
-  let nav = await utilities.getNav();
-  console.error(`Error at: "${req.originalUrl}": ${err.message}`);
-  res.render("errors/error", {
-    title: err.status || "Server Error",
-    message: err.message,
+  const nav = await utilities.getNav();
+  const status = err.status || 500; // Default to 500 if no status
+
+  console.error(`💥 Error (${status}) at ${req.originalUrl}:`, err.message);
+
+  const messages = {
+    404: "The page you requested doesn't exist.",
+    500: "Something went wrong on our end. We're working on it!",
+  };
+
+  res.status(status).render("errors/error", {
+    title: `${status} - ${status === 404 ? "Not Found" : "Server Error"}`,
+    message: messages[status] || err.message,
     nav,
   });
 });
