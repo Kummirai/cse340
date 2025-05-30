@@ -89,11 +89,11 @@ Util.buildVehicleDetailHTML = async function (vehicle) {
   }">
       </div>
       <div class="vehicle-info">
-        <h2>${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}</h2>
+        <h1>${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}</h1>
         <div class="price-mileage">
-          <p class="price">$${new Intl.NumberFormat("en-US").format(
+          <h2 class="price">$${new Intl.NumberFormat("en-US").format(
             vehicle.inv_price
-          )}</p>
+          )}</h2>
           <p class="mileage">${new Intl.NumberFormat("en-US").format(
             vehicle.inv_miles
           )} miles</p>

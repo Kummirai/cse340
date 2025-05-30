@@ -9,7 +9,7 @@
 }
 
 :root {
-  --primary-color: #4caf50;
+  --primary-color: #970505;
   --secondary-color: #f1f1f1;
   --text-color: #333;
   --font-family: "Arial", sans-serif;
@@ -123,7 +123,6 @@ main {
 }
 
 h1 {
-  margin: 2rem 0 0 1.5rem;
   font-size: 2rem;
   font-weight: 700;
   color: var(--text-color);
@@ -295,6 +294,7 @@ h1 {
 .vehicle-detail {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  align-items: flex-end;
   gap: 2rem;
   padding: 2rem;
 }
@@ -314,6 +314,7 @@ h1 {
 
 .price-mileage {
   display: flex;
+  flex-direction: column;
   gap: 2rem;
   margin-bottom: 1.5rem;
 }
@@ -327,7 +328,6 @@ h1 {
 .mileage {
   font-size: 1.2rem;
   color: #666;
-  align-self: flex-end;
 }
 
 .vehicle-description {
@@ -403,7 +403,7 @@ footer {
   }
 
   h1 {
-    margin: 2rem 0 0 1.5rem;
+    margin: 2rem 0 0 0;
   }
 
   .hero {
