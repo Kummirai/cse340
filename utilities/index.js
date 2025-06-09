@@ -121,10 +121,10 @@ Util.buildInventoryManagementGrid = async function () {
   let grid = `
   <ul class="vehicle-management">
     <li>
-      <a href="/inv/add" title="Add a new vehicle">Add New Classification</a>
+      <a href="/inv/add-classification" title="Add a new vehicle">Add New Classification</a>
     </li>
     <li>
-      <a href="/inv/delete" title="Delete a vehicle">Add New Vehicle</a>
+      <a href="/inv/add-vehicle" title="Delete a vehicle">Add New Vehicle</a>
       </li>
   </ul>`;
   return grid;
