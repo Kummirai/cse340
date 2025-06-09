@@ -98,6 +98,31 @@ invCont.buildVehicleDetail = async function (req, res, next) {
   }
 };
 
+/* ***************************
+ *  Inventory Management View
+ * ************************** */
+invCont.buildInventoryManagement = async function (req, res, next) {
+  try {
+    const data = await invModel.getAllInventoryItems();
+    if (!data || data.length === 0) {
+      req.flash("notice", "No vehicles found in inventory");
+      return res.redirect("/inv");
+    }
+
+    const grid = await utilities.buildInventoryGrid(data);
+    let nav = await utilities.getNav();
+
+    res.render("./inventory/management", {
+      title: "Inventory Management",
+      nav,
+      grid,
+    });
+  } catch (error) {
+    console.error("buildInventoryManagement error: " + error);
+    next(error);
+  }
+};
+
 //Error handling route for testing purposes
 invCont.triggerError = async function (req, res, next) {
   try {

@@ -18,4 +18,7 @@ router.get("/detail/:invId", invController.buildVehicleDetail);
 // Route to get classifications
 router.get("/get-classifications", invController.getClassifications);
 
+//Route to invenory management view
+router.get("/", invController.buildInventoryManagement);
+
 module.exports = router;
