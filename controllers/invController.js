@@ -111,6 +111,19 @@ invCont.buildInventoryManagement = async function (req, res, next) {
   });
 };
 
+/* ***************************
+ *  Add Classification View
+ * ************************** */
+invCont.addClassification = async function (req, res, next) {
+  const classifications = await utilities.buildClassifications();
+
+  res.render("./inventory/add-classification", {
+    classifications,
+    title: "Add New Classification",
+    nav: await utilities.getNav(),
+  });
+};
+
 //Error handling route for testing purposes
 invCont.triggerError = async function (req, res, next) {
   try {

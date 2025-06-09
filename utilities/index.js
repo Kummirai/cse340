@@ -130,6 +130,17 @@ Util.buildInventoryManagementGrid = async function () {
   return grid;
 };
 
+/* **************************************
+ * Build classification view HTML
+ * ************************************ */
+Util.buildClassifications = async function () {
+  let grid = `<form action="/inv/add-classification" method="post"></form>
+    <label for="classification">Classification Name:</label>
+    <input type="text" id="classification" name="classification" required>
+    <button type="submit">Add Classification</button>`;
+  return grid;
+};
+
 Util.handleErrors = (fn) => (req, res, next) =>
   Promise.resolve(fn(req, res, next)).catch(next);
 

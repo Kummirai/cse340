@@ -25,6 +25,6 @@ router.get("/", invController.buildInventoryManagement);
 router.get("/add-classification", invController.addClassification);
 
 //Route to add vehicle
-router.get("/add-vehicle", invController.addVehicle);
+// router.get("/add-vehicle", invController.addVehicle);
 
 module.exports = router;
