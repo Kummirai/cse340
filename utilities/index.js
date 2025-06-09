@@ -114,6 +114,22 @@ Util.buildVehicleDetailHTML = async function (vehicle) {
   return html;
 };
 
+/* **************************************
+ * Inventory Management view HTML
+ * ************************************ */
+Util.buildInventoryManagementGrid = async function () {
+  let grid = `
+  <ul class="vehicle-management">
+    <li>
+      <a href="/inv/add" title="Add a new vehicle">Add New Classification</a>
+    </li>
+    <li>
+      <a href="/inv/delete" title="Delete a vehicle">Add New Vehicle</a>
+      </li>
+  </ul>`;
+  return grid;
+};
+
 Util.handleErrors = (fn) => (req, res, next) =>
   Promise.resolve(fn(req, res, next)).catch(next);
 
