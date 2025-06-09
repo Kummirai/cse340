@@ -141,6 +141,24 @@ Util.buildClassifications = async function () {
   return grid;
 };
 
+/* **************************************
+ * Build vehicle view HTML
+ * ************************************ */
+Util.buildVehicleView = async function () {
+  let grid = `<form action="/inv/add-vehicle" method="post">
+    <label for="make">Make:</label>
+    <input type="text" id="make" name="make" required>
+    <label for="model">Model:</label>
+    <input type="text" id="model" name="model" required>
+    <label for="year">Year:</label>
+    <input type="number" id="year" name="year" required>
+    <label for="price">Price:</label>
+    <input type="number" id="price" name="price" required>
+    <button type="submit">Add Vehicle</button>
+  </form>`;
+  return grid;
+};
+
 Util.handleErrors = (fn) => (req, res, next) =>
   Promise.resolve(fn(req, res, next)).catch(next);
 

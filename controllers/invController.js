@@ -123,6 +123,18 @@ invCont.addClassification = async function (req, res, next) {
     nav: await utilities.getNav(),
   });
 };
+/* ***************************
+ *  Add new vehicle View
+ * ************************** */
+invCont.addVehicle = async function (req, res, next) {
+  const newVehicle = await utilities.buildVehicleView();
+
+  res.render("./inventory/add-vehicle", {
+    newVehicle,
+    title: "Add New Vehicle",
+    nav: await utilities.getNav(),
+  });
+};
 
 //Error handling route for testing purposes
 invCont.triggerError = async function (req, res, next) {
