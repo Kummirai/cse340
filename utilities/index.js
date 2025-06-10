@@ -176,37 +176,37 @@ Util.buildVehicleView = async function () {
       ${await Util.buildClassificationList()}
     </label>
      
-    <label for="make"><span>Make</span>
-      <input type="text" id="make" name="make" required placeholder="Min of 3 characters">
+    <label for="inv_make"><span>Make</span>
+      <input type="text" id="inv_make" name="inv_make" required placeholder="Min of 3 characters">
     </label>
-    <label for="model"><span>Model</span>
-      <input type="text" id="model" name="model" required placeholder="Min of 3 characters">
-    </label>
-
-    <label for="description"><span>Description</span>
-      <textarea id="description" rows="5" name="description" required></textarea>
+    <label for="inv_model"><span>Model</span>
+      <input type="text" id="inv_model" name="inv_model" required placeholder="Min of 3 characters">
     </label>
 
-    <label for="image"><span>Image path</span>
-      <input type="url" id="image" name="image" required>
-    </label>
-    <label for="thumbnail"><span>Thumbnail path</span>
-      <input type="url" id="thumbnail" name="thumbnail" required>
+    <label for="inv_description"><span>Description</span>
+      <textarea id="inv_description" rows="5" name="inv_description" required></textarea>
     </label>
 
-    <label for="price"><span>Price</span>
-      <input type="number" id="price" name="price" required placeholder="Decimal or Integer">
+    <label for="inv_image"><span>Image path</span>
+      <input type="text" id="inv_image" name="inv_image" required>
+    </label>
+    <label for="inv_thumbnail"><span>Thumbnail path</span>
+      <input type="text" id="inv_thumbnail" name="inv_thumbnail" required>
+    </label>
+
+    <label for="inv_price"><span>Price</span>
+      <input type="number" id="inv_price" name="inv_price" required placeholder="Decimal or Integer">
     </label>
     
-    <label for="year"><span>Year</span>
-      <input type="number" id="year" name="year" required placeholder="4-digit year">
+    <label for="inv_year"><span>Year</span>
+      <input type="number" id="inv_year" name="inv_year" required placeholder="4-digit year">
     </label>
     
-    <label for="miles"><span>Miles</span>
-      <input type="number" id="miles" name="miles" required placeholder="Digits only">
+    <label for="inv_miles"><span>Miles</span>
+      <input type="number" id="inv_miles" name="inv_miles" required placeholder="Digits only">
     </label>
-    <label for="color"><span>Color</span>
-      <input type="text" id="color" name="color" required>
+    <label for="inv_color"><span>Color</span>
+      <input type="text" id="inv_color" name="inv_color" required>
       </label>
     <button type="submit">Add Vehicle</button>
   </form>`;
