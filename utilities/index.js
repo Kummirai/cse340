@@ -121,10 +121,10 @@ Util.buildInventoryManagementGrid = async function () {
   let grid = `
   <ul class="vehicle-management">
     <li>
-      <a href="/inv/add-classification" title="Add a new vehicle">Add New Classification</a>
+      <a href="/inv/add-classification" title="Add a new classificatio">Add New Classification</a>
     </li>
     <li>
-      <a href="/inv/add-vehicle" title="Delete a vehicle">Add New Vehicle</a>
+      <a href="/inv/add-vehicle" title="Add a vehicle">Add New Vehicle</a>
       </li>
   </ul>`;
   return grid;
@@ -172,11 +172,10 @@ Util.buildClassifications = async function () {
 Util.buildVehicleView = async function () {
   let grid = `<form class="add-vehicle-form" action="/inv/add-vehicle" method="post">
 
-    <label for="classification"><span>Classification</span>
-      <select id="classification" name="classification" required>
-        <option value="">Select Classification</option>
-        <!-- Options will be populated dynamically -->
-      </select>
+    <label for="classification_id"><span>Classification</span>
+      ${await Util.buildClassificationList()}
+    </label>
+     
     <label for="make"><span>Make</span>
       <input type="text" id="make" name="make" required placeholder="Min of 3 characters">
     </label>
