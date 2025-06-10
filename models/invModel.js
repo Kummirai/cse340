@@ -42,30 +42,41 @@ invModel.getClassifications = async function () {
 invModel.addVehicle = async function (vehicleData) {
   try {
     const {
-      classification_id,
       inv_make,
       inv_model,
+      inv_year,
       inv_description,
       inv_image,
       inv_thumbnail,
       inv_price,
-      inv_year,
       inv_miles,
+      inv_color,
+      classification_id,
     } = vehicleData;
     const query = `
-      INSERT INTO public.inventory (classification_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles)
+      INSERT INTO public.inventory (inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
+      classification_id,)
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
       RETURNING *`;
     const values = [
-      classification_id,
       inv_make,
       inv_model,
+      inv_year,
       inv_description,
       inv_image,
       inv_thumbnail,
       inv_price,
-      inv_year,
       inv_miles,
+      inv_color,
+      classification_id,
     ];
     const result = await pool.query(query, values);
     return result.rows[0];

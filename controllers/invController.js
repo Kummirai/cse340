@@ -143,7 +143,7 @@ invCont.addVehicle = async function (req, res, next) {
 invCont.addVehiclePost = async function (req, res, next) {
   try {
     const vehicleData = req.body;
-    const result = await invModel.addVehicle(vehicleData);
+    const result = await inventoryModel.addVehicle(vehicleData);
 
     if (result.rowCount === 0) {
       req.flash("notice", "Failed to add vehicle");
