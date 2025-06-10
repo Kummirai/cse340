@@ -354,6 +354,36 @@ h1 {
   font-size: 1.1rem;
 }
 
+/*Vehicle management styles */
+.vehicle-management {
+  display: flex;
+}
+
+.vehicle-management li {
+  list-style-type: none;
+  margin: 10px;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--text-color);
+  width: fit-content;
+  border-radius: 4px;
+}
+
+.vehicle-management li:hover, .vehicle-management li:hover a {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+}
+
+.vehicle-management li a {
+  text-decoration: none;
+  color: var(--text-color);
+  font-weight: bold;
+}
+
+.vm-title{
+  margin-left: 10px;
+}
+
+
 footer {
   margin: 30px;
 }
