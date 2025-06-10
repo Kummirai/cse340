@@ -145,15 +145,45 @@ Util.buildClassifications = async function () {
  * Build vehicle view HTML
  * ************************************ */
 Util.buildVehicleView = async function () {
-  let grid = `<form action="/inv/add-vehicle" method="post">
-    <label for="make">Make:</label>
-    <input type="text" id="make" name="make" required>
-    <label for="model">Model:</label>
-    <input type="text" id="model" name="model" required>
-    <label for="year">Year:</label>
-    <input type="number" id="year" name="year" required>
-    <label for="price">Price:</label>
-    <input type="number" id="price" name="price" required>
+  let grid = `<form class="add-vehicle-form" action="/inv/add-vehicle" method="post">
+
+    <label for="classification"><span>Classification</span>
+      <select id="classification" name="classification" required>
+        <option value="">Select Classification</option>
+        <!-- Options will be populated dynamically -->
+      </select>
+    <label for="make"><span>Make</span>
+      <input type="text" id="make" name="make" required placeholder="Min of 3 characters">
+    </label>
+    <label for="model"><span>Model</span>
+      <input type="text" id="model" name="model" required placeholder="Min of 3 characters">
+    </label>
+
+    <label for="description"><span>Description</span>
+      <textarea id="description" rows="5" name="description" required></textarea>
+    </label>
+
+    <label for="image"><span>Image path</span>
+      <input type="url" id="image" name="image" required>
+    </label>
+    <label for="thumbnail"><span>Thumbnail path</span>
+      <input type="url" id="thumbnail" name="thumbnail" required>
+    </label>
+
+    <label for="price"><span>Price</span>
+      <input type="number" id="price" name="price" required placeholder="Decimal or Integer">
+    </label>
+    
+    <label for="year"><span>Year</span>
+      <input type="number" id="year" name="year" required placeholder="4-digit year">
+    </label>
+    
+    <label for="miles"><span>Miles</span>
+      <input type="number" id="miles" name="miles" required placeholder="Digits only">
+    </label>
+    <label for="color"><span>Color</span>
+      <input type="text" id="color" name="color" required>
+      </label>
     <button type="submit">Add Vehicle</button>
   </form>`;
   return grid;

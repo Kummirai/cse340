@@ -367,7 +367,8 @@ h1 {
   border-radius: 4px;
 }
 
-.vehicle-management li:hover, .vehicle-management li:hover a {
+.vehicle-management li:hover,
+.vehicle-management li:hover a {
   background-color: var(--primary-color);
   color: var(--secondary-color);
 }
@@ -381,10 +382,57 @@ h1 {
   padding: 10px;
 }
 
-.vm-title{
+.vm-title {
   margin-left: 10px;
 }
 
+/*Add Vehicle Form Styles */
+.add-vehicle-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: var(--secondary-color);
+}
+
+.add-vehicle-form label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.add-vehicle-form label span {
+  margin: 5px;
+  color: var(--text-color);
+}
+
+.add-vehicle-form input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.add-vehicle-form select{
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.add-vehicle-form button {
+  padding: 10px;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
 
 footer {
   margin: 30px;
