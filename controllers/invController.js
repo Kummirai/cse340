@@ -136,6 +136,27 @@ invCont.addVehicle = async function (req, res, next) {
   });
 };
 
+/* ***************************
+ *  Add new vehicle POST
+ * ************************** */
+invCont.addVehiclePost = async function (req, res, next) {
+  try {
+    const vehicleData = req.body;
+    const result = await invModel.addVehicle(vehicleData);
+
+    if (result.rowCount === 0) {
+      req.flash("notice", "Failed to add vehicle");
+      return res.redirect("/inv/add-vehicle");
+    }
+
+    req.flash("success", "Vehicle added successfully");
+    res.redirect("/inv");
+  } catch (error) {
+    console.error("addVehiclePost error: " + error);
+    next(error);
+  }
+};
+
 //Error handling route for testing purposes
 invCont.triggerError = async function (req, res, next) {
   try {

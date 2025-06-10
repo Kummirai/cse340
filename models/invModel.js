@@ -1,11 +1,11 @@
-const pool = require('../database');
+const pool = require("../database");
 
 const invModel = {};
 
 /* ***************************
  * Get inventory by classification_id
  * ************************** */
-invModel.getInventoryByClassificationId = async function(classification_id) {
+invModel.getInventoryByClassificationId = async function (classification_id) {
   try {
     const data = await pool.query(
       `SELECT * FROM public.inventory AS i 
@@ -24,7 +24,7 @@ invModel.getInventoryByClassificationId = async function(classification_id) {
 /* ***************************
  * Get all classifications
  * ************************** */
-invModel.getClassifications = async function() {
+invModel.getClassifications = async function () {
   try {
     const data = await pool.query(
       `SELECT * FROM public.classification ORDER BY classification_name`
@@ -32,6 +32,45 @@ invModel.getClassifications = async function() {
     return data.rows;
   } catch (error) {
     console.error("getClassifications error " + error);
+    throw error;
+  }
+};
+
+/* ***************************
+ * Add new vehicle
+ * ************************** */
+invModel.addVehicle = async function (vehicleData) {
+  try {
+    const {
+      classification_id,
+      inv_make,
+      inv_model,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_year,
+      inv_miles,
+    } = vehicleData;
+    const query = `
+      INSERT INTO public.inventory (classification_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      RETURNING *`;
+    const values = [
+      classification_id,
+      inv_make,
+      inv_model,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_year,
+      inv_miles,
+    ];
+    const result = await pool.query(query, values);
+    return result.rows[0];
+  } catch (error) {
+    console.error("addVehicle error " + error);
     throw error;
   }
 };
