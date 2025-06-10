@@ -134,10 +134,13 @@ Util.buildInventoryManagementGrid = async function () {
  * Build classification view HTML
  * ************************************ */
 Util.buildClassifications = async function () {
-  let grid = `<form action="/inv/add-classification" method="post"></form>
-    <label for="classification">Classification Name:</label>
-    <input type="text" id="classification" name="classification" required>
-    <button type="submit">Add Classification</button>`;
+  let grid = `<form class="classification-form" action="/inv/add-classification" method="post">
+    <label for="classification"><span>Classification Name</span>
+    <p class="notice">Name must be alphabetic characters only.</p>
+     <input type="text" id="classification" name="classification" required>
+    </label>
+    <button type="submit">Add Classification</button>
+    </form>`;
   return grid;
 };
 
