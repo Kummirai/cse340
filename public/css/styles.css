@@ -362,7 +362,6 @@ h1 {
 .vehicle-management li {
   list-style-type: none;
   margin: 10px;
-  padding: 0.5rem 0.9rem;
   border: 1px solid var(--text-color);
   width: fit-content;
   border-radius: 4px;
@@ -377,6 +376,9 @@ h1 {
   text-decoration: none;
   color: var(--text-color);
   font-weight: bold;
+  display: block;
+  width: 100%;
+  padding: 10px;
 }
 
 .vm-title{
