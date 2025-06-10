@@ -1,4 +1,5 @@
 const invModel = require("../models/inventory-model");
+const inventoryModel = require("../models/invModel");
 const utilities = require("../utilities/");
 const pool = require("../database/");
 
@@ -163,7 +164,7 @@ invCont.addVehiclePost = async function (req, res, next) {
 invCont.addClassificationPost = async function (req, res, next) {
   try {
     const classificationName = req.body.classification;
-    const result = await invModel.addClassification(classificationName);
+    const result = await inventoryModel.addClassification(classificationName);
 
     if (result.rowCount === 0) {
       req.flash("notice", "Failed to add classification");
