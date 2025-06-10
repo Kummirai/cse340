@@ -75,4 +75,22 @@ invModel.addVehicle = async function (vehicleData) {
   }
 };
 
+/* ***************************
+ * Add new classification
+ * ************************** */
+invModel.addClassification = async function (classificationName) {
+  try {
+    const query = `
+      INSERT INTO public.classification (classification_name)
+      VALUES ($1)
+      RETURNING *`;
+    const values = [classificationName];
+    const result = await pool.query(query, values);
+    return result.rows[0];
+  } catch (error) {
+    console.error("addClassification error " + error);
+    throw error;
+  }
+};
+
 module.exports = invModel;

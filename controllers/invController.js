@@ -157,6 +157,27 @@ invCont.addVehiclePost = async function (req, res, next) {
   }
 };
 
+/* ***************************
+ *  Add new classification POST
+ * ************************** */
+invCont.addClassificationPost = async function (req, res, next) {
+  try {
+    const classificationName = req.body.classification;
+    const result = await invModel.addClassification(classificationName);
+
+    if (result.rowCount === 0) {
+      req.flash("notice", "Failed to add classification");
+      return res.redirect("/inv/add-classification");
+    }
+
+    req.flash("success", "Classification added successfully");
+    res.redirect("/inv");
+  } catch (error) {
+    console.error("addClassificationPost error: " + error);
+    next(error);
+  }
+};
+
 //Error handling route for testing purposes
 invCont.triggerError = async function (req, res, next) {
   try {

@@ -30,4 +30,7 @@ router.get("/add-vehicle", invController.addVehicle);
 //Route add vehicle post//
 router.post("/add-vehicle", invController.addVehiclePost);
 
+//Route to add classification post//*css*/`
+router.post("/add-classification", invController.addClassificationPost);
+
 module.exports = router;
