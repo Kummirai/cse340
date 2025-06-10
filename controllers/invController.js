@@ -171,7 +171,7 @@ invCont.addClassificationPost = async function (req, res, next) {
       return res.redirect("/inv/add-classification");
     }
 
-    req.flash("success", "Classification added successfully");
+    req.flash("success", "Vehicle lassification added successfully");
     res.redirect("/inv");
   } catch (error) {
     console.error("addClassificationPost error: " + error);
