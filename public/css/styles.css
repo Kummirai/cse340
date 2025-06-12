@@ -497,6 +497,19 @@ h1 {
   text-align: center;
 }
 
+/*error message styles */
+.error li {
+  list-style-type: none;
+
+  color: var(--primary-color);
+  padding: 15px;
+  font-weight: bold;
+  border-radius: 5px;
+  margin: 20px auto;
+  max-width: 500px;
+  text-align: center;
+}
+
 /*notice styles */
 .notice li {
   color: #034946;
@@ -514,7 +527,6 @@ h1 {
 .error {
   background-color: rgb(255, 216, 216);
 }
-
 
 footer {
   margin: 30px;

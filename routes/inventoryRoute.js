@@ -2,6 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const invController = require("../controllers/invController");
+const Util = require("../utilities/index");
 
 //Route to trigger an error for testing
 router.get("/trigger-error", invController.triggerError);
@@ -18,7 +19,7 @@ router.get("/detail/:invId", invController.buildVehicleDetail);
 // Route to get classifications
 router.get("/get-classifications", invController.getClassifications);
 
-//Route to invetnory management view
+//Route to inventory management view
 router.get("/", invController.buildInventoryManagement);
 
 //Route to add classification
@@ -28,9 +29,13 @@ router.get("/add-classification", invController.addClassification);
 router.get("/add-vehicle", invController.addVehicle);
 
 //Route add vehicle post//
-router.post("/add-vehicle", invController.addVehiclePost);
+router.post("/add-vehicle", Util.validateVehicle, invController.addVehiclePost);
 
-//Route to add classification post//*css*/`
-router.post("/add-classification", invController.addClassificationPost);
+//Route to add classification post//
+router.post(
+  "/add-classification",
+  Util.validateClassification,
+  invController.addClassificationPost
+);
 
 module.exports = router;

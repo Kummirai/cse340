@@ -1,5 +1,6 @@
 const invModel = require("../models/inventory-model");
 const Util = {};
+const validator = require("validator");
 
 /* ************************
  * Constructs the nav HTML unordered list
@@ -211,6 +212,74 @@ Util.buildVehicleView = async function () {
     <button id="add-vehicle" type="submit">Add Vehicle</button>
   </form>`;
   return grid;
+};
+
+//validator
+Util.validateClassification = async function (req, res, next) {
+  const { classification } = req.body;
+  console.log(classification);
+
+  if (!classification || !validator.isAlpha(classification)) {
+    req.flash(
+      "error",
+      "Classification not added name must be alphabetic characters only."
+    );
+    return res.redirect("/inv");
+  }
+
+  next(); // pass control to next handler
+};
+
+Util.validateVehicle = async function (req, res, next) {
+  const {
+    classification_id,
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+  } = req.body;
+
+  if (
+    !classification_id ||
+    !inv_make ||
+    !inv_model ||
+    !inv_description ||
+    !inv_image ||
+    !inv_thumbnail ||
+    !inv_price ||
+    !inv_year ||
+    !inv_miles ||
+    !inv_color
+  ) {
+    return req.flash("error", "All fields are required.");
+  }
+
+  if (
+    !validator.isNumeric(inv_price) ||
+    !validator.isNumeric(inv_year) ||
+    !validator.isNumeric(inv_miles)
+  ) {
+    req.flash(
+      "error",
+      "Vehicle NOT added, Price, Year, and Miles must be numeric values."
+    );
+    return res.redirect("/inv");
+  }
+
+  if (inv_make.length < 3 || inv_model.length < 3) {
+    req.flash(
+      "error",
+      "Vehicle NOT added, Make and Model must be at least 3 characters long."
+    );
+    return res.redirect("/inv");
+  }
+
+  next(); // pass control to next handler
 };
 
 Util.handleErrors = (fn) => (req, res, next) =>
