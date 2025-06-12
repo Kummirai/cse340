@@ -159,7 +159,7 @@ Util.buildClassifications = async function () {
   let grid = `<form class="classification-form" method="post">
     <label for="classification"><span>Classification Name</span>
     <p class="notice classification-notice">Name must be alphabetic characters only.</p>
-     <input type="text" id="classification" name="classification" required>
+     <input autofocus autocomplete="off" type="text" id="classification" name="classification" required>
     </label>
     <button type="submit" id="classificationSubmit">Add Classification</button>
     </form>`;
