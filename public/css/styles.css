@@ -499,11 +499,11 @@ h1 {
 
 /*notice styles */
 .notice li {
-  color: #f59105;
+  color: #034946;
   list-style-type: none;
-  background-color: #fcf8e3;
+  background-color: #ceefff;
   padding: 15px;
-  border: 1px solid #faebcc;
+  border: 1px solid #50ebff;
   border-radius: 5px;
   margin: 20px auto;
   max-width: 500px;
