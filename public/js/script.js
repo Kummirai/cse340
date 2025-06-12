@@ -37,6 +37,30 @@ function isValidYear(input) {
   return yearPattern.test(input);
 }
 
+// Add event listener to the input field to check for unwanted characters
+classificationInput.addEventListener("input", function () {
+  if (hasUnwantedCharacters(classificationInput.value)) {
+    classificationInput.classList.add("error");
+    classificationNotice.style.color = "red";
+  } else {
+    classificationInput.classList.remove("error");
+    classificationNotice.style.color = "black";
+  }
+});
+
+// Add event listener to the submit button to prevent form submission if unwanted characters are present
+classificationSubmit.addEventListener("click", function (event) {
+  if (hasUnwantedCharacters(classificationInput.value)) {
+    event.preventDefault(); // Prevent form submission
+    classificationNotice.textContent = "Please remove unwanted characters.";
+    classificationNotice.style.color = "red";
+    sendData();
+  } else {
+    classificationNotice.textContent =
+      "Name must be alphabetic characters only.";
+  }
+});
+
 //Add event listener to the input field to check for valid mileage
 invMiles.addEventListener("input", function () {
   if (!isValidMileage(invMiles.value)) {
@@ -88,30 +112,6 @@ invModel.addEventListener("input", function () {
   } else {
     invModel.classList.remove("error");
     invModel.setCustomValidity("");
-  }
-});
-
-// Add event listener to the input field to check for unwanted characters
-classificationInput.addEventListener("input", function () {
-  if (hasUnwantedCharacters(classificationInput.value)) {
-    classificationInput.classList.add("error");
-    classificationNotice.style.color = "red";
-  } else {
-    classificationInput.classList.remove("error");
-    classificationNotice.style.color = "black";
-  }
-});
-
-// Add event listener to the submit button to prevent form submission if unwanted characters are present
-classificationSubmit.addEventListener("click", function (event) {
-  if (hasUnwantedCharacters(classificationInput.value)) {
-    event.preventDefault(); // Prevent form submission
-    classificationNotice.textContent = "Please remove unwanted characters.";
-    classificationNotice.style.color = "red";
-    sendData();
-  } else {
-    classificationNotice.textContent =
-      "Name must be alphabetic characters only.";
   }
 });
 
