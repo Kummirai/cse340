@@ -6,6 +6,7 @@ const invModel = document.querySelector("#inv_model");
 const invPrice = document.querySelector("#inv_price");
 const invYear = document.querySelector("#inv_year");
 const invMiles = document.querySelector("#inv_miles");
+const addVehicle = document.querySelector("#add-vehicle");
 
 //function to  if mileage is digits only
 function isValidMileage(input) {
@@ -32,7 +33,7 @@ function isValidNumber(input) {
 
 //Function to check if the input is a valid year and is 4 digit long
 function isValidYear(input) {
-  const yearPattern = /^(18|20)\d{2}$/;
+  const yearPattern = /^(19|20)\d{2}$/;
   return yearPattern.test(input);
 }
 
@@ -60,7 +61,7 @@ invYear.addEventListener("input", function () {
 
 // Add event listener to the input is decimal or integer
 invPrice.addEventListener("input", function () {
-  if (!isValidNumber(invMake.value)) {
+  if (!isValidNumber(invPrice.value)) {
     invMake.classList.add("error");
     invMake.setCustomValidity("Make must be a valid number.");
   } else {
@@ -131,3 +132,18 @@ const sendData = async () => {
     console.error("Error:", error);
   }
 };
+
+// Add event listener to the add vehicle form
+addVehicle.addEventListener("submit", function (event) {
+  // Prevent form submission if there are validation errors
+  if (
+    !isValidMileage(invMiles.value) ||
+    !isValidYear(invYear.value) ||
+    !isValidNumber(invPrice.value) ||
+    !isValidLength(invMake.value) ||
+    !isValidLength(invModel.value)
+  ) {
+    event.preventDefault();
+    alert("Please correct the errors in the form before submitting.");
+  }
+});

@@ -170,7 +170,7 @@ Util.buildClassifications = async function () {
  * Build vehicle view HTML
  * ************************************ */
 Util.buildVehicleView = async function () {
-  let grid = `<form class="add-vehicle-form" action="/inv/add-vehicle" method="post">
+  let grid = `<form class="add-vehicle-form"  method="post">
 
     <label for="classification_id"><span>Classification</span>
       ${await Util.buildClassificationList()}
@@ -195,20 +195,20 @@ Util.buildVehicleView = async function () {
     </label>
 
     <label for="inv_price"><span>Price</span>
-      <input type="number" id="inv_price" name="inv_price" required placeholder="Decimal or Integer">
+      <input type="text" id="inv_price" name="inv_price" required placeholder="Decimal or Integer">
     </label>
     
     <label for="inv_year"><span>Year</span>
-      <input type="number" id="inv_year" name="inv_year" required placeholder="4-digit year">
+      <input type="text" id="inv_year" name="inv_year" required placeholder="4-digit year">
     </label>
     
     <label for="inv_miles"><span>Miles</span>
-      <input type="number" id="inv_miles" name="inv_miles" required placeholder="Digits only">
+      <input type="text" id="inv_miles" name="inv_miles" required placeholder="Digits only">
     </label>
     <label for="inv_color"><span>Color</span>
       <input type="text" id="inv_color" name="inv_color" required>
       </label>
-    <button type="submit">Add Vehicle</button>
+    <button id="add-vehicle" type="submit">Add Vehicle</button>
   </form>`;
   return grid;
 };

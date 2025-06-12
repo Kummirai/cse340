@@ -1,8 +1,7 @@
-<%# Display flash messages if any %> <%-
-// messages() %> <% if (title) { %>
+<%# Display flash messages if any %> <%- messages() %> <% if (title) { %>
 <div class="classification-header">
   <h1><%= title %></h1>
 </div>
 
-<div ><%- grid %></div>
-<% } %> 
+<div><%- grid %></div>
+<% } %>
