@@ -156,12 +156,12 @@ Util.buildClassificationList = async function (classification_id = null) {
  * Build classification view HTML
  * ************************************ */
 Util.buildClassifications = async function () {
-  let grid = `<form class="classification-form" action="/inv/add-classification" method="post">
+  let grid = `<form class="classification-form" method="post">
     <label for="classification"><span>Classification Name</span>
-    <p class="notice">Name must be alphabetic characters only.</p>
+    <p class="notice classification-notice">Name must be alphabetic characters only.</p>
      <input type="text" id="classification" name="classification" required>
     </label>
-    <button type="submit">Add Classification</button>
+    <button type="submit" id="classificationSubmit">Add Classification</button>
     </form>`;
   return grid;
 };

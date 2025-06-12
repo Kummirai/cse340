@@ -510,6 +510,12 @@ h1 {
   text-align: center;
 }
 
+/*errot styles */
+.error {
+  background-color: rgb(255, 216, 216);
+}
+
+
 footer {
   margin: 30px;
 }
