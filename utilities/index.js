@@ -214,6 +214,48 @@ Util.buildVehicleView = async function () {
   return grid;
 };
 
+/* **************************************
+ * User registration view HTML
+ * ************************************ */
+Util.buildUserRegistrationView = async function () {
+  let html = `
+    <form class="registration-form" method="post">
+      <label for="first_name"><span>First Name</span>
+        <input type="text" id="first_name" name="first_name" required>
+      </label>
+      <label for="last_name"><span>Last Name</span>
+        <input type="text" id="last_name" name="last_name" required>
+      </label>
+      <label for="email"><span>Email</span>
+        <input type="email" id="email" name="email" required>
+      </label>
+      <label for="password"><span>Password</span>
+        <input type="password" id="password" name="password" required minlength="8">
+      </label>
+      <button type="submit">Register</button>
+      <p class="notice">Already have an account? <a href="/login">Login here</a>.</p>
+    </form>`;
+  return html;
+};
+
+/* **************************************
+ * User login view HTML
+ * ************************************ */
+Util.buildUserLoginView = async function () {
+  let html = `
+    <form class="login-form" method="post">
+      <label for="email"><span>Email</span>
+        <input type="email" id="email" name="email" required>
+      </label>
+      <label for="password"><span>Password</span>
+        <input type="password" id="password" name="password" required minlength="8">
+      </label>
+      <button type="submit">Login</button>
+      <p class="notice">Don't have an account? <a href="/register">Register here</a>.</p>
+    </form>`;
+  return html;
+};
+
 //validator
 Util.validateClassification = async function (req, res, next) {
   const { classification } = req.body;
