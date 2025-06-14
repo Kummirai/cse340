@@ -2,6 +2,8 @@
 const User = require("../models/userModel");
 const utilities = require("../utilities/");
 const accountController = {};
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 //buildLogin function
 accountController.buildLogin = async function (req, res) {
