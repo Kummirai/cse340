@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const accountController = require("../controllers/accountController");
 const Util = require("../utilities/index");
-const { validateLogin, validateRegister } = require("../utilities/validation");
+const { regValidate } = require("../utilities/validation");
 
 // Process the login request
 router.post(
@@ -11,6 +11,14 @@ router.post(
   regValidate.loginRules(),
   regValidate.checkLoginData,
   utilities.handleErrors(accountController.accountLogin)
+);
+
+// Process the registration request
+router.post(
+  "/register",
+  regValidate.registerRules(),
+  regValidate.checkRegisterData,
+  utilities.handleErrors(accountController.accountRegister)
 );
 
 module.exports = router;
