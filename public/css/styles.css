@@ -482,6 +482,10 @@ form button,
   margin: 8px 0;
 }
 
+#show-password:hover {
+  background-color: #444;
+}
+
 form .notice {
   color: var(--text-color);
   font-weight: 500;
