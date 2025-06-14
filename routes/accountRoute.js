@@ -18,7 +18,7 @@ router.post(
   "/register",
   regValidate.registerRules(),
   regValidate.checkRegisterData,
-  utilities.handleErrors(accountController.accountRegister)
+  utilities.handleErrors(accountController.registerAccount)
 );
 
 // render the registration page

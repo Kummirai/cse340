@@ -14,6 +14,7 @@ const utilities = require("./utilities/");
 const session = require("express-session");
 const pool = require("./database/");
 const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
 
 /* ***********************
  * Middleware
@@ -23,6 +24,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(cookieParser());
 app.use(utilities.checkJWTToken);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 /* ***********************
  * Middleware

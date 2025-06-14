@@ -473,6 +473,12 @@ form button {
   font-size: 1rem;
   cursor: pointer;
 }
+#show-password {
+  background-color: var(--text-color);
+  color: var(--secondary-color);
+  border: none;
+  margin: 8px 0;
+}
 
 form .notice {
   color: var(--text-color);

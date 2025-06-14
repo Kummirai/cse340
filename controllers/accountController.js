@@ -26,61 +26,41 @@ accountController.buildRegister = async (req, res) => {
 };
 
 /* ****************************************
- *  Process registration request
- * ************************************ */
-accountController.accountRegister = async (req, res) => {
+ *  Process Registration
+ * *************************************** */
+async function registerAccount(req, res) {
   let nav = await utilities.getNav();
   const {
-    account_first_name,
-    account_last_name,
+    account_firstname,
+    account_lastname,
     account_email,
     account_password,
   } = req.body;
 
-  // Check if the email already exists
-  const existingAccount = await accountModel.getAccountByEmail(account_email);
-  if (existingAccount) {
-    req.flash("notice", "An account with that email already exists.");
-    return res.status(400).render("account/register", {
-      title: "Register",
-      nav,
-      errors: null,
-      account_first_name,
-      account_last_name,
-      account_email,
-    });
-  }
-
-  // Hash the password
-  const hashedPassword = await utilities.hashPassword(account_password);
-
-  // Create the new account
-  const newAccount = {
-    account_first_name,
-    account_last_name,
+  const regResult = await accountModel.registerAccount(
+    account_firstname,
+    account_lastname,
     account_email,
-    account_password: hashedPassword,
-  };
+    account_password
+  );
 
-  try {
-    const result = await accountModel.createAccount(newAccount);
-    if (result) {
-      req.flash("success", "Registration successful. Please log in.");
-      return res.redirect("/account/login");
-    }
-  } catch (error) {
-    console.error("Error creating account:", error);
-    req.flash("error", "An error occurred while creating your account.");
-    return res.status(500).render("account/register", {
-      title: "Register",
+  if (regResult) {
+    req.flash(
+      "notice",
+      `Congratulations, you\'re registered ${account_firstname}. Please log in.`
+    );
+    res.status(201).render("account/login", {
+      title: "Login",
       nav,
-      errors: null,
-      account_first_name,
-      account_last_name,
-      account_email,
+    });
+  } else {
+    req.flash("notice", "Sorry, the registration failed.");
+    res.status(501).render("account/register", {
+      title: "Registration",
+      nav,
     });
   }
-};
+}
 
 /* ****************************************
  *  Process login request

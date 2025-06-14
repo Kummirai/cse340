@@ -3,8 +3,28 @@
 <div class="container">
   <form id="registerForm" action="/account/register" method="post">
     <div class="form-group">
+      <label for="username"
+        ><span>First Name</span>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          value="<%= locals.firstname %>"
+          required
+        />
+      </label>
+      <label for="lastname"
+        ><span>Last Name</span>
+        <input
+          type="text"
+          id="lastname"
+          name="lastname"
+          value="<%= locals.lastname %>"
+          required
+        />
+      </label>
       <label for="email"
-        ><span>Email Address:</span>
+        ><span>Email Address</span>
         <input
           type="email"
           id="email"
@@ -27,19 +47,11 @@
         />
       </label>
     </div>
-    <div class="form-group">
-      <label for="confirmPassword"
-        ><span>Confirm Password</span>
-        <input
-          type="password"
-          id="confirmPassword"
-          name="confirmPassword"
-          value="<%= locals.confirmPassword %>"
-          class="form-control"
-          required
-        />
-      </label>
-    </div>
+    <p>
+      Password must be minimum of 12 characters and include 1 capital letter , 1
+      number and 1 special character
+    </p>
+    <button id="show-password">Show password</button>
     <button type="submit" class="btn btn-primary">Register</button>
     <div class="form-group">
       <p>Already have an account? <a href="/account/login">Login here</a>.</p>
