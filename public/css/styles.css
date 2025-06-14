@@ -446,26 +446,25 @@ h1 {
   background-color: var(--secondary-color);
 }
 
-.classification-form label {
+form label {
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
   font-weight: bold;
 }
 
-.classification-form label span {
+form label span {
   margin: 5px;
   color: var(--text-color);
 }
-
-.classification-form input {
+input {
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 1rem;
 }
 
-.classification-form button {
+form button {
   padding: 10px;
   background-color: var(--primary-color);
   color: var(--secondary-color);
@@ -475,13 +474,32 @@ h1 {
   cursor: pointer;
 }
 
-.classification-form .notice {
+form .notice {
   color: var(--text-color);
   font-weight: 500;
   margin: 5px 0 10px 5px;
 }
-.classification-form button:hover {
+form button:hover {
   background-color: #8b0000;
+}
+
+#loginForm,
+#registerForm {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: var(--secondary-color);
+}
+
+#loginForm p,
+#registerForm p {
+  margin: 10px 0;
+  color: var(--text-color);
+  font-size: 0.9rem;
 }
 
 /*success message styles */

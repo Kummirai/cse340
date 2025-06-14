@@ -324,6 +324,44 @@ Util.validateVehicle = async function (req, res, next) {
   next(); // pass control to next handler
 };
 
+Util.checkJWTToken = (req, res, next) => {
+  const token = req.cookies.jwt || req.headers.authorization?.split(" ")[1];
+  if (!token) {
+    return next();
+  }
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+    if (err) {
+      console.error("JWT verification failed:", err);
+      return next();
+    }
+    req.user = decoded;
+    next();
+  });
+};
+
+//validate user input
+Util.validation = (req, res, next) => {
+  const { first_name, last_name, email, password } = req.body;
+
+  if (!first_name || !last_name || !email || !password) {
+    req.flash("error", "All fields are required.");
+    return res.redirect("/register");
+  }
+
+  if (!validator.isEmail(email)) {
+    req.flash("error", "Invalid email format.");
+    return res.redirect("/register");
+  }
+
+  if (password.length < 8) {
+    req.flash("error", "Password must be at least 8 characters long.");
+    return res.redirect("/register");
+  }
+
+  next();
+};
+
 Util.handleErrors = (fn) => (req, res, next) =>
   Promise.resolve(fn(req, res, next)).catch(next);
 

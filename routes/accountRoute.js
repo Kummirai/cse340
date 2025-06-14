@@ -2,8 +2,8 @@
 const express = require("express");
 const router = express.Router();
 const accountController = require("../controllers/accountController");
-const Util = require("../utilities/index");
-const { regValidate } = require("../utilities/validation");
+const utilities = require("../utilities/index");
+const regValidate = require("../utilities/validation");
 
 // Process the login request
 router.post(
@@ -20,5 +20,14 @@ router.post(
   regValidate.checkRegisterData,
   utilities.handleErrors(accountController.accountRegister)
 );
+
+// render the registration page
+router.get(
+  "/register",
+  utilities.handleErrors(accountController.buildRegister)
+);
+
+// render the login page
+router.get("/login", utilities.handleErrors(accountController.buildLogin));
 
 module.exports = router;

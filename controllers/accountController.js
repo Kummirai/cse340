@@ -1,88 +1,153 @@
-//accounyControler.js
-const User = require("../models/userModel");
+// accountController.js
 const utilities = require("../utilities/");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const pool = require("../database/");
 require("dotenv").config();
+
+// Import your account model (adjust path as needed)
+// const accountModel = require("../models/account-model");
 
 const accountController = {};
 
-// Process the registration request
-accountController.accountRegister = async function (req, res, next) {
+/* ****************************************
+ *  Deliver registration view
+ * ************************************ */
+accountController.buildRegister = async (req, res) => {
+  let nav = await utilities.getNav();
+  res.render("account/register", {
+    title: "Register",
+    nav,
+    errors: null,
+    account_first_name: "",
+    account_last_name: "",
+    account_email: "",
+  });
+};
+
+/* ****************************************
+ *  Process registration request
+ * ************************************ */
+accountController.accountRegister = async (req, res) => {
+  let nav = await utilities.getNav();
+  const {
+    account_first_name,
+    account_last_name,
+    account_email,
+    account_password,
+  } = req.body;
+
+  // Check if the email already exists
+  const existingAccount = await accountModel.getAccountByEmail(account_email);
+  if (existingAccount) {
+    req.flash("notice", "An account with that email already exists.");
+    return res.status(400).render("account/register", {
+      title: "Register",
+      nav,
+      errors: null,
+      account_first_name,
+      account_last_name,
+      account_email,
+    });
+  }
+
+  // Hash the password
+  const hashedPassword = await utilities.hashPassword(account_password);
+
+  // Create the new account
+  const newAccount = {
+    account_first_name,
+    account_last_name,
+    account_email,
+    account_password: hashedPassword,
+  };
+
   try {
-    const { firstName, lastName, email, password } = req.body;
-
-    // Validate user input
-    if (!firstName || !lastName || !email || !password) {
-      req.flash("notice", "All fields are required");
-      return res.redirect("/account/register");
+    const result = await accountModel.createAccount(newAccount);
+    if (result) {
+      req.flash("success", "Registration successful. Please log in.");
+      return res.redirect("/account/login");
     }
-
-    // Check if user already exists
-    const existingUser = await User.findByEmail(email);
-    if (existingUser) {
-      req.flash("notice", "Email already registered");
-      return res.redirect("/account/register");
-    }
-
-    // Create new user
-    const newUser = await User.create({
-      firstName,
-      lastName,
-      email,
-      password,
-    });
-
-    // Generate JWT token
-    const token = jwt.sign({ userId: newUser.id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
-
-    // Set token in cookie
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // Use secure cookies in production
-      maxAge: 3600000, // 1 hour
-    });
-
-    // Redirect to home page
-    req.flash("success", "Registration successful");
-    res.redirect("/");
   } catch (error) {
-    console.error("accountRegister error: " + error);
-    req.flash("error", "An error occurred during registration");
-    res.redirect("/account/register");
+    console.error("Error creating account:", error);
+    req.flash("error", "An error occurred while creating your account.");
+    return res.status(500).render("account/register", {
+      title: "Register",
+      nav,
+      errors: null,
+      account_first_name,
+      account_last_name,
+      account_email,
+    });
   }
 };
 
-// Process the login request
-accountController.accountLogin = async function (req, res, next) {
-  try {
-    const { email, password } = req.body;
+/* ****************************************
+ *  Process login request
+ * ************************************ */
+accountController.accountLogin = async (req, res) => {
+  let nav = await utilities.getNav();
+  const { account_email, account_password } = req.body;
+  const accountData = await accountModel.getAccountByEmail(account_email);
 
-    // Validate user credentials
-    const user = await User.validateUser(email, password);
-    if (!user) {
-      req.flash("notice", "Invalid email or password");
-      return res.redirect("/account/login");
-    }
-    // Generate JWT token
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+  if (!accountData) {
+    req.flash("notice", "Please check your credentials and try again.");
+    return res.status(400).render("account/login", {
+      title: "Login",
+      nav,
+      errors: null,
+      account_email,
     });
-    // Set token in cookie
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // Use secure cookies in production
-      maxAge: 3600000, // 1 hour
-    });
-    // Redirect to home page
-    req.flash("success", "Login successful");
-    res.redirect("/");
-  } catch (error) {
-    console.error("accountLogin error: " + error);
-    req.flash("error", "An error occurred during login");
-    res.redirect("/account/login");
   }
+
+  try {
+    if (await bcrypt.compare(account_password, accountData.account_password)) {
+      delete accountData.account_password;
+      const accessToken = jwt.sign(
+        accountData,
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: 3600 * 1000 }
+      );
+
+      res.cookie("jwt", accessToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV !== "development",
+        maxAge: 3600 * 1000,
+      });
+
+      return res.redirect("/account/");
+    }
+
+    req.flash("notice", "Please check your credentials and try again.");
+    return res.status(400).render("account/login", {
+      title: "Login",
+      nav,
+      errors: null,
+      account_email,
+    });
+  } catch (error) {
+    console.error("Login error:", error);
+    req.flash("error", "Access Forbidden");
+    return res.status(500).render("account/login", {
+      title: "Login",
+      nav,
+      errors: null,
+      account_email,
+    });
+  }
+};
+
+/* ****************************************
+ *  Deliver login view
+ * ************************************ */
+accountController.buildLogin = async (req, res) => {
+  let nav = await utilities.getNav();
+  res.render("account/login", {
+    title: "Login",
+    nav,
+    errors: null,
+    account_email: "",
+  });
 };
 
 module.exports = accountController;
