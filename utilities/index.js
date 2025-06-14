@@ -243,7 +243,7 @@ Util.buildUserRegistrationView = async function () {
  * ************************************ */
 Util.buildUserLoginView = async function () {
   let html = `
-    <form class="login-form" method="post">
+    <form id="loginForm" action="/account/login" method="post">
       <label for="email"><span>Email</span>
         <input type="email" id="email" name="email" required>
       </label>
