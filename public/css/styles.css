@@ -424,7 +424,8 @@ h1 {
   font-size: 1rem;
 }
 
-.add-vehicle-form button {
+.add-vehicle-form button,
+.button {
   padding: 10px;
   background-color: var(--primary-color);
   color: var(--secondary-color);
@@ -464,7 +465,8 @@ input {
   font-size: 1rem;
 }
 
-form button {
+form button,
+.button {
   padding: 10px;
   background-color: var(--primary-color);
   color: var(--secondary-color);
@@ -485,7 +487,8 @@ form .notice {
   font-weight: 500;
   margin: 5px 0 10px 5px;
 }
-form button:hover {
+form button:hover,
+.button:hover {
   background-color: #8b0000;
 }
 

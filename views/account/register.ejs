@@ -3,45 +3,45 @@
 <div class="container">
   <form id="registerForm" action="/account/register" method="post">
     <div class="form-group">
-      <label for="username"
+      <label for="account_firstname"
         ><span>First Name</span>
         <input
           type="text"
-          id="username"
-          name="username"
+          id="account_firstname"
+          name="account_firstname"
           value="<%= locals.firstname %>"
           required
         />
       </label>
-      <label for="lastname"
+      <label for="account_lastname"
         ><span>Last Name</span>
         <input
           type="text"
-          id="lastname"
-          name="lastname"
-          value="<%= locals.lastname %>"
+          id="account_lastname"
+          name="account_lastname"
+          value="<%= locals.account_lastname %>"
           required
         />
       </label>
-      <label for="email"
+      <label for="account_email"
         ><span>Email Address</span>
         <input
           type="email"
-          id="email"
-          name="email"
-          value="<%= locals.email %>"
+          id="account_email"
+          name="account_email"
+          value="<%= locals.account_email %>"
           required
         />
       </label>
     </div>
     <div class="form-group">
-      <label for="password"
+      <label for="account_password"
         ><span>Password</span>
         <input
           type="password"
-          id="password"
-          name="password"
-          value="<%= locals.password %>"
+          id="account_password"
+          name="account_password"
+          value="<%= locals.account_ %>"
           class="form-control"
           required
         />
@@ -51,8 +51,8 @@
       Password must be minimum of 12 characters and include 1 capital letter , 1
       number and 1 special character
     </p>
-    <button id="show-password">Show password</button>
-    <button type="submit" class="btn btn-primary">Register</button>
+    <input type="button" value="Show Password" id="show-password" class="button"/>
+    <input type="submit" value="Register" class="button"/>
     <div class="form-group">
       <p>Already have an account? <a href="/account/login">Login here</a>.</p>
     </div>
