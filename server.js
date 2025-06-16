@@ -15,7 +15,7 @@ const session = require("express-session");
 const pool = require("./database/");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
-const Util = require("./utilities/"); 
+const Util = require("./utilities/");
 
 /* ***********************
  * Middleware
@@ -25,7 +25,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use((req, res, next) => {
+  console.log("Cookies:", req.cookies);
+  console.log("JWT Cookie:", req.cookies.jwt);
+  next();
+});
 
 /* ***********************
  * Session Configuration
@@ -53,7 +59,6 @@ app.use(function (req, res, next) {
 /* ***********************
  * JWT Middleware - MUST come after cookieParser and session
  *************************/
-// In your main app.js/server.js
 app.use(Util.checkJWTToken);
 
 /* ***********************

@@ -7,33 +7,39 @@ require("dotenv").config();
 /* ****************************************
  * Middleware to check token validity
  **************************************** */
-Util.checkJWTToken = (req, res, next) => {
-  console.log("Incoming cookies:", req.cookies);
+// utilities/index.js
 
-  const token = req.cookies.jwt;
-  if (!token) {
-    console.log("No JWT cookie found");
+Util.checkJWTToken = async (req, res, next) => {
+  console.log("Checking JWT for path:", req.path); // Debug
+
+  // Skip for public routes
+  if (req.path === "/account/login" || req.path === "/account/register") {
     return next();
   }
 
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-    if (err) {
-      console.error("JWT verification failed:", err.message);
-      res.clearCookie("jwt");
-      return res.redirect("/account/login");
-    }
+  const token = req.cookies?.jwt;
+  console.log("Token found:", !!token); // Debug
 
-    console.log("Decoded token payload:", decoded);
-    res.locals.user = {
-      account_id: decoded.account_id,
-      account_firstname: decoded.account_firstname,
-      account_lastname: decoded.account_lastname,
-      account_email: decoded.account_email,
-      account_type: decoded.account_type || "Client",
-    };
+  if (!token) {
+    console.log("No JWT token found");
+    res.locals.user = null;
+    res.locals.loggedin = 0;
+    return next();
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    console.log("Decoded user:", decoded); // Debug
+    res.locals.user = decoded;
     res.locals.loggedin = 1;
     next();
-  });
+  } catch (error) {
+    console.error("JWT Error:", error.message);
+    res.clearCookie("jwt");
+    res.locals.user = null;
+    res.locals.loggedin = 0;
+    next();
+  }
 };
 
 /* ************************

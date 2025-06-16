@@ -5,7 +5,10 @@ const accountController = require("../controllers/accountController");
 const utilities = require("../utilities/");
 const regValidate = require("../utilities/validation");
 
-// Registration routes
+// Apply JWT check to all account routes
+router.use(utilities.checkJWTToken);
+
+// Registration routes (public)
 router.get(
   "/register",
   utilities.handleErrors(accountController.buildRegister)
@@ -15,7 +18,7 @@ router.post(
   utilities.handleErrors(accountController.registerAccount)
 );
 
-// Login routes
+// Login routes (public)
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
 router.post("/login", utilities.handleErrors(accountController.accountLogin));
 

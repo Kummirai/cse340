@@ -112,10 +112,10 @@ accountController.accountLogin = async function (req, res) {
       // Set cookie
       res.cookie("jwt", accessToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        maxAge: 3600000,
-        sameSite: "strict",
-        path: "/",
+        secure: process.env.NODE_ENV === "production", 
+        maxAge: 3600000, 
+        sameSite: "Lax",
+        path: "/", 
       });
 
       req.flash("notice", `Welcome back, ${tokenPayload.account_firstname}!`);
