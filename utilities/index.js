@@ -1,6 +1,32 @@
 const invModel = require("../models/inventory-model");
 const Util = {};
 const validator = require("validator");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+
+
+/* ****************************************
+* Middleware to check token validity
+**************************************** */
+Util.checkJWTToken = (req, res, next) => {
+ if (req.cookies.jwt) {
+  jwt.verify(
+   req.cookies.jwt,
+   process.env.ACCESS_TOKEN_SECRET,
+   function (err, accountData) {
+    if (err) {
+     req.flash("Please log in")
+     res.clearCookie("jwt")
+     return res.redirect("/account/login")
+    }
+    res.locals.accountData = accountData
+    res.locals.loggedin = 1
+    next()
+   })
+ } else {
+  next()
+ }
+}
 
 /* ************************
  * Constructs the nav HTML unordered list
@@ -362,7 +388,11 @@ Util.validation = (req, res, next) => {
   next();
 };
 
-Util.handleErrors = (fn) => (req, res, next) =>
+Util.handleErrors = (fn) => (req, res, next) => {
+  console.log("Before Handle erors!");
+
   Promise.resolve(fn(req, res, next)).catch(next);
+  console.log("After Handle erors!");
+};
 
 module.exports = Util;

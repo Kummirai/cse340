@@ -30,6 +30,8 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 /* ***********************
  * Middleware
  * ************************/
+app.use(utilities.checkJWTToken);
+
 app.use(
   session({
     store: new (require("connect-pg-simple")(session))({

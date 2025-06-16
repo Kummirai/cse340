@@ -8,15 +8,15 @@ const regValidate = require("../utilities/validation");
 // Process the login request
 router.post(
   "/login",
-  regValidate.loginRules(),
+  // regValidate.loginRules(),
   regValidate.checkLoginData,
-  utilities.handleErrors(accountController.accountLogin)
+  accountController.accountLogin
 );
 
 // Process the registration request
 router.post(
   "/register",
-  regValidate.registerRules(),
+  // regValidate.registerRules(),
   regValidate.checkRegisterData,
   utilities.handleErrors(accountController.registerAccount)
 );

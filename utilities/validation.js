@@ -5,6 +5,7 @@ const utilities = require("./index");
 const regValidate = {};
 // Registration validation rules
 regValidate.registerRules = () => {
+  console.log("registerRules");
   return [
     body("account_first_name")
       .notEmpty()
@@ -54,6 +55,7 @@ regValidate.checkRegisterData = (req, res, next) => {
       account_email: req.body.account_email,
     });
   }
+  console.log("checkRegisterData done!");
   next();
 };
 

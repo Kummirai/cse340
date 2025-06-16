@@ -4,9 +4,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const pool = require("../database/");
 require("dotenv").config();
-
-// Import your account model (adjust path as needed)
-// const accountModel = require("../models/account-model");
+const accountModel = require("../models/account-model");
 
 const accountController = {};
 
@@ -28,7 +26,8 @@ accountController.buildRegister = async (req, res) => {
 /* ****************************************
  *  Process Registration
  * *************************************** */
-async function registerAccount(req, res) {
+accountController.registerAccount = async (req, res) => {
+  console.log("Registering account!");
   let nav = await utilities.getNav();
   const {
     account_firstname,
@@ -37,47 +36,83 @@ async function registerAccount(req, res) {
     account_password,
   } = req.body;
 
-  const regResult = await accountModel.registerAccount(
-    account_firstname,
-    account_lastname,
-    account_email,
-    account_password
-  );
+  try {
+    // Hash the password with bcrypt
+    const hashedPassword = await bcrypt.hash(account_password, 10); // 10 salt rounds
 
-  if (regResult) {
-    req.flash(
-      "notice",
-      `Congratulations, you\'re registered ${account_firstname}. Please log in.`
+    const regResult = await accountModel.registerAccount(
+      account_firstname,
+      account_lastname,
+      account_email,
+      hashedPassword // Store the hashed password
     );
-    res.status(201).render("account/login", {
-      title: "Login",
-      nav,
-    });
-  } else {
-    req.flash("notice", "Sorry, the registration failed.");
-    res.status(501).render("account/register", {
+
+    console.log(regResult);
+
+    if (regResult) {
+      // Create JWT token for the new user
+      const tokenPayload = {
+        account_id: regResult.account_id,
+        account_firstname: regResult.account_firstname,
+        account_lastname: regResult.account_lastname,
+        account_email: regResult.account_email,
+        account_type: regResult.account_type || "Client", // Default to 'Client' if not set
+      };
+
+      const accessToken = jwt.sign(
+        tokenPayload,
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: "1h" } // Token expires in 1 hour
+      );
+
+      // Set JWT as HTTP-only cookie
+      res.cookie("jwt", accessToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV !== "development", // Secure in production
+        maxAge: 3600000, // 1 hour in milliseconds
+        sameSite: "strict",
+      });
+
+      req.flash(
+        "notice",
+        `Congratulations ${account_firstname}, you're now registered and logged in!`
+      );
+      return res.redirect("/account/management");
+    } else {
+      throw new Error("Registration failed");
+    }
+  } catch (error) {
+    console.error("Registration error:", error);
+    req.flash("notice", "Sorry, the registration failed. Please try again.");
+    return res.status(501).render("account/register", {
       title: "Registration",
       nav,
+      account_firstname,
+      account_lastname,
+      account_email,
     });
   }
-}
+};
 
 /* ****************************************
  *  Process login request
  * ************************************ */
-accountController.accountLogin = async (req, res) => {
+accountController.accountLogin = async function (req, res) {
+  console.log("Trying to login a user!");
+
   let nav = await utilities.getNav();
   const { account_email, account_password } = req.body;
   const accountData = await accountModel.getAccountByEmail(account_email);
 
   if (!accountData) {
     req.flash("notice", "Please check your credentials and try again.");
-    return res.status(400).render("account/login", {
+    res.status(400).render("account/login", {
       title: "Login",
       nav,
       errors: null,
       account_email,
     });
+    return;
   }
 
   try {
@@ -96,23 +131,22 @@ accountController.accountLogin = async (req, res) => {
       });
 
       return res.redirect("/account/");
+    } else {
+      req.flash("notice", "Please check your credentials and try again.");
+      res.status(400).render("account/login", {
+        title: "Login",
+        nav,
+        errors: null,
+        account_email,
+      });
     }
-
-    req.flash("notice", "Please check your credentials and try again.");
-    return res.status(400).render("account/login", {
-      title: "Login",
-      nav,
-      errors: null,
-      account_email,
-    });
   } catch (error) {
     console.error("Login error:", error);
-    req.flash("error", "Access Forbidden");
-    return res.status(500).render("account/login", {
+    res.status(500).render("account/login", {
       title: "Login",
       nav,
       errors: null,
-      account_email,
+      message: "An error occurred during login",
     });
   }
 };
