@@ -515,19 +515,6 @@ form button:hover,
   font-size: 0.9rem;
 }
 
-/*Password validation error message*/
-.error-message {
-  margin-top: 5px;
-  font-size: 0.9em;
-}
-
-.form-group small {
-  display: block;
-  margin-top: 5px;
-  color: #666;
-  font-size: 0.8em;
-}
-
 /*success message styles */
 .success li {
   list-style-type: none;

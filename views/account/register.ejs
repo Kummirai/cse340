@@ -42,28 +42,18 @@
           type="password"
           id="account_password"
           name="account_password"
-          value="<%= locals.account_password %>"
-          class="error-message"
+          value="<%= locals.account_ %>"
+          class="form-control"
           required
         />
       </label>
     </div>
-    <div
-      id="passwordError"
-      class="error-message"
-      style="display: none; color: red"
-    ></div>
     <p>
       Password must be minimum of 12 characters and include 1 capital letter , 1
       number and 1 special character
     </p>
-    <input
-      type="button"
-      value="Show Password"
-      id="show-password"
-      class="button"
-    />
-    <input type="submit" value="Register" class="button" />
+    <input type="button" value="Show Password" id="show-password" class="button"/>
+    <input type="submit" value="Register" class="button"/>
     <div class="form-group">
       <p>Already have an account? <a href="/account/login">Login here</a>.</p>
     </div>
