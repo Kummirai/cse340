@@ -10,11 +10,20 @@
       href="/account/management"
       class="welcome-link"
     >
-      Welcome <%= locals.user.account_firstname || 'User' %>
+      Welcome <%= locals.user.account_firstname || 'User' %> <% if
+      (locals.user.account_lastname) { %> <%= locals.user.account_lastname %> <%
+      } %>
     </a>
+
+    <!-- Optional: Show account type if needed -->
+    <% if (locals.user.account_type && locals.user.account_type !== 'Client') {
+    %>
+    <span class="account-type">(<%= locals.user.account_type %>)</span>
+    <% } %>
+
     <a title="Click to log out" href="/account/logout">Logout</a>
     <% } else { %>
-    <!-- Show this when user is logged out -->
+    <!-- Show  when user is logged out -->
     <a title="Click to log in" href="/account/login">My Account</a>
     <% } %>
   </div>

@@ -4,29 +4,37 @@ const validator = require("validator");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-
 /* ****************************************
-* Middleware to check token validity
-**************************************** */
+ * Middleware to check token validity
+ **************************************** */
 Util.checkJWTToken = (req, res, next) => {
- if (req.cookies.jwt) {
-  jwt.verify(
-   req.cookies.jwt,
-   process.env.ACCESS_TOKEN_SECRET,
-   function (err, accountData) {
+  console.log("Incoming cookies:", req.cookies);
+
+  const token = req.cookies.jwt;
+  if (!token) {
+    console.log("No JWT cookie found");
+    return next();
+  }
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
     if (err) {
-     req.flash("Please log in")
-     res.clearCookie("jwt")
-     return res.redirect("/account/login")
+      console.error("JWT verification failed:", err.message);
+      res.clearCookie("jwt");
+      return res.redirect("/account/login");
     }
-    res.locals.accountData = accountData
-    res.locals.loggedin = 1
-    next()
-   })
- } else {
-  next()
- }
-}
+
+    console.log("Decoded token payload:", decoded);
+    res.locals.user = {
+      account_id: decoded.account_id,
+      account_firstname: decoded.account_firstname,
+      account_lastname: decoded.account_lastname,
+      account_email: decoded.account_email,
+      account_type: decoded.account_type || "Client",
+    };
+    res.locals.loggedin = 1;
+    next();
+  });
+};
 
 /* ************************
  * Constructs the nav HTML unordered list

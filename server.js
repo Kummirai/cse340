@@ -15,6 +15,7 @@ const session = require("express-session");
 const pool = require("./database/");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
+const Util = require("./utilities/"); 
 
 /* ***********************
  * Middleware
@@ -23,15 +24,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(cookieParser());
-app.use(utilities.checkJWTToken);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 /* ***********************
- * Middleware
- * ************************/
-app.use(utilities.checkJWTToken);
-
+ * Session Configuration
+ *************************/
 app.use(
   session({
     store: new (require("connect-pg-simple")(session))({
@@ -51,6 +49,12 @@ app.use(function (req, res, next) {
   res.locals.messages = require("express-messages")(req, res);
   next();
 });
+
+/* ***********************
+ * JWT Middleware - MUST come after cookieParser and session
+ *************************/
+// In your main app.js/server.js
+app.use(Util.checkJWTToken);
 
 /* ***********************
  * View Engine Setup

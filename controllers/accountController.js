@@ -49,32 +49,9 @@ accountController.registerAccount = async (req, res) => {
     console.log(regResult);
 
     if (regResult) {
-      // Create JWT token for the new user
-      const tokenPayload = {
-        account_id: regResult.account_id,
-        account_firstname: regResult.account_firstname,
-        account_lastname: regResult.account_lastname,
-        account_email: regResult.account_email,
-        account_type: regResult.account_type || "Client", // Default to 'Client' if not set
-      };
-
-      const accessToken = jwt.sign(
-        tokenPayload,
-        process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "1h" } // Token expires in 1 hour
-      );
-
-      // Set JWT as HTTP-only cookie
-      res.cookie("jwt", accessToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV !== "development", // Secure in production
-        maxAge: 3600000, // 1 hour in milliseconds
-        sameSite: "strict",
-      });
-
       req.flash(
         "notice",
-        `Congratulations ${account_firstname}, you're now registered, you can logged in!`
+        `Congratulations ${account_firstname}, you're now registered! Please log in.`
       );
       return res.redirect("/account/login");
     } else {
@@ -135,15 +112,15 @@ accountController.accountLogin = async function (req, res) {
       // Set cookie
       res.cookie("jwt", accessToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV !== "development",
+        secure: process.env.NODE_ENV === "production",
         maxAge: 3600000,
         sameSite: "strict",
+        path: "/",
       });
 
-      // Set user data in res.locals for all views
-      res.locals.user = tokenPayload;
-
       req.flash("notice", `Welcome back, ${tokenPayload.account_firstname}!`);
+
+      // Redirect to account page - middleware will handle setting res.locals.user
       return res.redirect("/account/");
     } else {
       req.flash("notice", "Please check your credentials and try again.");
@@ -182,18 +159,31 @@ accountController.buildLogin = async (req, res) => {
 /* ****************************************
  *  Account management view
  * ************************************ */
-accountController.buildManagement = async (req, res) => {
+accountController.buildAccountManagement = async function (req, res) {
   let nav = await utilities.getNav();
+
+  console.log("Current user data:", res.locals.user); // Debug log
+
+  if (!res.locals.user) {
+    req.flash("notice", "Please log in to access your account.");
+    return res.redirect("/account/login");
+  }
+
   res.render("account/management", {
     title: "Account Management",
     nav,
     errors: null,
+    ...res.locals.user,
   });
 };
 
-//Handle logout
+/* ****************************************
+ *  Handle logout
+ * ************************************ */
 accountController.accountLogout = async (req, res) => {
   res.clearCookie("jwt");
+  res.locals.user = null;
+  res.locals.loggedin = 0;
   req.flash("notice", "You have been logged out.");
   res.redirect("/");
 };
