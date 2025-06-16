@@ -211,4 +211,10 @@ module.exports = {
       return res.redirect("/account/update");
     }
   },
+
+  logout(req, res) {
+    res.clearCookie("jwt");
+    req.flash("notice", "You have been logged out.");
+    res.redirect("/account/login");
+  },
 };
