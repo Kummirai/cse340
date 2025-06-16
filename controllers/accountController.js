@@ -77,7 +77,7 @@ accountController.registerAccount = async (req, res) => {
         "notice",
         `Congratulations ${account_firstname}, you're now registered and logged in!`
       );
-      return res.redirect("/account/management");
+      return res.redirect("/account/login");
     } else {
       throw new Error("Registration failed");
     }
@@ -161,6 +161,18 @@ accountController.buildLogin = async (req, res) => {
     nav,
     errors: null,
     account_email: "",
+  });
+};
+
+/* ****************************************
+ *  Account management view
+ * ************************************ */
+accountController.buildManagement = async (req, res) => {
+  let nav = await utilities.getNav();
+  res.render("account/management", {
+    title: "Account Management",
+    nav,
+    errors: null,
   });
 };
 
