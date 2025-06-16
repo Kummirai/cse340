@@ -2,7 +2,6 @@
 const utilities = require("../utilities/");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const pool = require("../database/");
 require("dotenv").config();
 const accountModel = require("../models/account-model");
 
@@ -101,8 +100,11 @@ accountController.accountLogin = async function (req, res) {
   console.log("Trying to login a user!");
 
   let nav = await utilities.getNav();
+
   const { account_email, account_password } = req.body;
   const accountData = await accountModel.getAccountByEmail(account_email);
+
+  console.log(`User ${accountData}`);
 
   if (!accountData) {
     req.flash("notice", "Please check your credentials and try again.");

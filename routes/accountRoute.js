@@ -32,7 +32,7 @@ router.get("/login", utilities.handleErrors(accountController.buildLogin));
 
 //render the management page
 router.get(
-  "/management",
+  "/",
   utilities.handleErrors(accountController.buildManagement)
 );
 
