@@ -74,7 +74,7 @@ accountController.registerAccount = async (req, res) => {
 
       req.flash(
         "notice",
-        `Congratulations ${account_firstname}, you're now registered and logged in!`
+        `Congratulations ${account_firstname}, you're now registered, you can logged in!`
       );
       return res.redirect("/account/login");
     } else {
@@ -100,42 +100,54 @@ accountController.accountLogin = async function (req, res) {
   console.log("Trying to login a user!");
 
   let nav = await utilities.getNav();
-
   const { account_email, account_password } = req.body;
-  const accountData = await accountModel.getAccountByEmail(account_email);
-
-  console.log(`User ${accountData}`);
-
-  if (!accountData) {
-    req.flash("notice", "Please check your credentials and try again.");
-    res.status(400).render("account/login", {
-      title: "Login",
-      nav,
-      errors: null,
-      account_email,
-    });
-    return;
-  }
 
   try {
+    const accountData = await accountModel.getAccountByEmail(account_email);
+
+    if (!accountData) {
+      req.flash("notice", "Please check your credentials and try again.");
+      return res.status(400).render("account/login", {
+        title: "Login",
+        nav,
+        errors: null,
+        account_email,
+      });
+    }
+
     if (await bcrypt.compare(account_password, accountData.account_password)) {
-      delete accountData.account_password;
+      // Create token payload (remove sensitive data)
+      const tokenPayload = {
+        account_id: accountData.account_id,
+        account_firstname: accountData.account_firstname,
+        account_lastname: accountData.account_lastname,
+        account_email: accountData.account_email,
+        account_type: accountData.account_type || "Client",
+      };
+
+      // Create JWT token
       const accessToken = jwt.sign(
-        accountData,
+        tokenPayload,
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: 3600 * 1000 }
+        { expiresIn: "1h" }
       );
 
+      // Set cookie
       res.cookie("jwt", accessToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV !== "development",
-        maxAge: 3600 * 1000,
+        maxAge: 3600000,
+        sameSite: "strict",
       });
 
+      // Set user data in res.locals for all views
+      res.locals.user = tokenPayload;
+
+      req.flash("notice", `Welcome back, ${tokenPayload.account_firstname}!`);
       return res.redirect("/account/");
     } else {
       req.flash("notice", "Please check your credentials and try again.");
-      res.status(400).render("account/login", {
+      return res.status(400).render("account/login", {
         title: "Login",
         nav,
         errors: null,
@@ -144,11 +156,12 @@ accountController.accountLogin = async function (req, res) {
     }
   } catch (error) {
     console.error("Login error:", error);
-    res.status(500).render("account/login", {
+    req.flash("notice", "An error occurred during login.");
+    return res.status(500).render("account/login", {
       title: "Login",
       nav,
       errors: null,
-      message: "An error occurred during login",
+      account_email,
     });
   }
 };
@@ -176,6 +189,13 @@ accountController.buildManagement = async (req, res) => {
     nav,
     errors: null,
   });
+};
+
+//Handle logout
+accountController.accountLogout = async (req, res) => {
+  res.clearCookie("jwt");
+  req.flash("notice", "You have been logged out.");
+  res.redirect("/");
 };
 
 module.exports = accountController;
