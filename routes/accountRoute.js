@@ -30,4 +30,10 @@ router.get(
 // render the login page
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
 
+//render the management page
+router.get(
+  "/management",
+  utilities.handleErrors(accountController.buildManagement)
+);
+
 module.exports = router;
