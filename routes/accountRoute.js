@@ -1,33 +1,38 @@
-//Route accountRoute.js
+// accountRoute.js
 const express = require("express");
 const router = express.Router();
 const accountController = require("../controllers/accountController");
-const utilities = require("../utilities/index");
+const authController = require("../controllers/authController");
 const regValidate = require("../utilities/validation");
+const { authenticate, authorize } = require("../middleware/authMiddleware");
 
-// Process the login request
-router.post(
-  "/login",
-  regValidate.loginRules(),
-  regValidate.checkLoginData,
-  utilities.handleErrors(accountController.accountLogin)
-);
+// Public routes
+router.get("/register", accountController.showRegistrationForm);
+router.get("/login", accountController.showLoginForm);
 
-// Process the registration request
+// Registration process
 router.post(
   "/register",
   regValidate.registerRules(),
   regValidate.checkRegisterData,
-  utilities.handleErrors(accountController.registerAccount)
+  accountController.register
 );
 
-// render the registration page
+// Authentication routes
+router.post(
+  "/login",
+  regValidate.loginRules(),
+  regValidate.checkLoginData,
+  authController.login
+);
+
+router.get("/logout", authController.logout);
+
+// Protected routes (require authentication)
 router.get(
-  "/register",
-  utilities.handleErrors(accountController.buildRegister)
+  "/management",
+  authenticate,
+  accountController.showAccountManagement
 );
-
-// render the login page
-router.get("/login", utilities.handleErrors(accountController.buildLogin));
 
 module.exports = router;
