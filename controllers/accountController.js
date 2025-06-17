@@ -16,6 +16,82 @@ const accessToken = (id) => {
   });
 };
 
+// Add these new controller methods
+accountController.buildUpdateView = async (req, res) => {
+  let nav = await utilities.getNav();
+  const accountId = req.params.account_id;
+
+  try {
+    const accountData = await accountModel.getAccountById(accountId);
+
+    res.render("account/update", {
+      title: "Update Account",
+      nav,
+      account_id: accountId,
+      account_firstname: accountData.account_firstname,
+      account_lastname: accountData.account_lastname,
+      account_email: accountData.account_email,
+    });
+  } catch (error) {
+    req.flash("error", "Sorry, we couldn't load your account information.");
+    res.redirect("/account/management");
+  }
+};
+
+accountController.updateAccountInfo = async (req, res) => {
+  const { account_id, account_firstname, account_lastname, account_email } =
+    req.body;
+
+  try {
+    await accountModel.updateAccountInfo(
+      account_id,
+      account_firstname,
+      account_lastname,
+      account_email
+    );
+
+    req.flash("notice", "Your account information has been updated.");
+    res.redirect("/account/management");
+  } catch (error) {
+    req.flash("error", "Failed to update account information.");
+    res.redirect(`/account/update/${account_id}`);
+  }
+};
+
+accountController.updatePassword = async (req, res) => {
+  const { account_id, current_password, new_password, confirm_password } =
+    req.body;
+
+  try {
+    // Verify current password
+    const accountData = await accountModel.getAccountById(account_id);
+    const isMatch = await bcrypt.compare(
+      current_password,
+      accountData.account_password
+    );
+
+    if (!isMatch) {
+      throw new Error("Current password is incorrect");
+    }
+
+    if (new_password !== confirm_password) {
+      throw new Error("New passwords do not match");
+    }
+
+    // Hash new password
+    const hashedPassword = await bcrypt.hash(new_password, 10);
+
+    // Update password
+    await accountModel.updatePassword(account_id, hashedPassword);
+
+    req.flash("notice", "Your password has been updated.");
+    res.redirect("/account/management");
+  } catch (error) {
+    req.flash("error", error.message || "Failed to update password.");
+    res.redirect(`/account/update/${account_id}`);
+  }
+};
+
 /* ****************************************
  *  Deliver registration view
  * ************************************ */

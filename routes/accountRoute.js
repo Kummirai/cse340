@@ -40,4 +40,23 @@ router.get(
 // Logout route
 router.get("/logout", utilities.handleErrors(accountController.accountLogout));
 
+// Add these new routes
+router.get(
+  "/update/:account_id",
+  utilities.checkJWTToken,
+  utilities.handleErrors(accountController.buildUpdateView)
+);
+
+router.post(
+  "/update-info",
+  utilities.checkJWTToken,
+  utilities.handleErrors(accountController.updateAccountInfo)
+);
+
+router.post(
+  "/update-password",
+  utilities.checkJWTToken,
+  utilities.handleErrors(accountController.updatePassword)
+);
+
 module.exports = router;
