@@ -208,6 +208,12 @@ Util.buildVehicleDetailHTML = async function (vehicle) {
             <li><strong>Color:</strong> ${vehicle.inv_color}</li>
           </ul>
         </div>
+
+        <div class="review-button">
+          <a href="/reviews/${
+            vehicle.inv_id
+          }" class="btn-review">Write a Review</a>
+        </div>
       </div>
     </div>
   `;

@@ -1,4 +1,5 @@
 <h1><%= title %></h1>
+
 <% if (messages.notice) { %>
 <div class="flash notice"><%= messages.notice %></div>
 <% } %> <% if (messages.error) { %>
@@ -10,8 +11,10 @@
     src="<%= vehicle.inv_thumbnail %>"
     alt="Image of <%= vehicle.inv_make %> <%= vehicle.inv_model %>"
   />
-  <h2><%= vehicle.inv_make %> <%= vehicle.inv_model %></h2>
-  <p><%= vehicle.inv_description %></p>
+  <div class="vehicle-info">
+    <h2><%= vehicle.inv_make %> <%= vehicle.inv_model %></h2>
+    <p><%= vehicle.inv_description %></p>
+  </div>
 </section>
 
 <section class="reviews">

@@ -15,8 +15,8 @@ async function addReview({ inv_id, account_id, rating, content }) {
 
 async function getAllReviews() {
   try {
-    const sql = `SELECT r.content, r.rating, r.review_date, u.first_name
-                 FROM reviews r JOIN users u ON r.user_id = u.user_id
+    const sql = `SELECT r.content, r.rating, r.review_date, a.account_firstname
+                 FROM reviews r JOIN account a ON r.account_id = a.account_id
                  ORDER BY r.review_date DESC`;
     const result = await pool.query(sql);
     return result.rows;
@@ -58,9 +58,9 @@ async function getReviewsByVehicle(inv_id) {
         r.rating,
         r.content,
         r.review_date,
-        u.first_name || ' ' || u.last_name AS reviewer
+        a.account_firstname || ' ' || a.account_lastname AS reviewer
       FROM reviews r
-      JOIN users u ON r.user_id = u.user_id
+      JOIN account a ON r.account_id = a.account_id
       WHERE r.inv_id = $1
       ORDER BY r.review_date DESC
     `;

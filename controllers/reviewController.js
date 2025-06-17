@@ -2,10 +2,11 @@ const reviewModel = require("../models/review-model");
 const inventoryModel = require("../models/inventory-model");
 const utilities = require("../utilities");
 
-exports.renderReviewForm = (req, res) => {
+exports.renderReviewForm = async (req, res) => {
+  let nav = await utilities.getNav();
   res.render("reviews/add", {
     title: "Add a Review",
-    nav: req.nav,
+    nav,
   });
 };
 
@@ -65,11 +66,12 @@ exports.showVehicleReviews = async (req, res) => {
 };
 
 exports.showAllReviews = async (req, res) => {
+  let nav = await utilities.getNav();
   try {
     const reviews = await reviewModel.getAllReviews();
     res.render("reviews/index", {
       title: "Customer Reviews",
-      nav: req.nav,
+      nav,
       reviews,
     });
   } catch (err) {
@@ -80,7 +82,7 @@ exports.showAllReviews = async (req, res) => {
 exports.showVehicleReviews = async (req, res) => {
   const invId = req.params.inv_id;
   try {
-    const vehicle = await getInventoryItemById(invId);
+    const vehicle = await inventoryModel.getInventoryItemById(invId);
     const reviews = await reviewModel.getReviewsByVehicle(invId);
     res.render("reviews/vehicle", {
       title: `${vehicle.inv_make} ${vehicle.inv_model} Reviews`,
