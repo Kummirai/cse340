@@ -252,7 +252,7 @@ accountController.accountLogin = async function (req, res) {
       account_type: accountData.account_type || "Client",
     };
 
-    // ✅ Generate token here (this was missing)
+    // Generate token here
     const accessToken = jwt.sign(
       tokenPayload,
       process.env.ACCESS_TOKEN_SECRET,
@@ -261,7 +261,7 @@ accountController.accountLogin = async function (req, res) {
       }
     );
 
-    // ✅ Set token in a secure HTTP-only cookie
+    // Set token in a secure HTTP-only cookie
     res.cookie("jwt", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
