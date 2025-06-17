@@ -208,10 +208,11 @@ accountController.registerAccount = async (req, res) => {
 /* ****************************************
  *  Process login request
  * ************************************ */
+
 accountController.accountLogin = async function (req, res) {
   console.log("Trying to login a user!");
 
-  let nav = await utilities.getNav();
+  const nav = await utilities.getNav();
   const { account_email, account_password } = req.body;
 
   try {
@@ -227,28 +228,12 @@ accountController.accountLogin = async function (req, res) {
       });
     }
 
-    if (await bcrypt.compare(account_password, accountData.account_password)) {
-      const tokenPayload = {
-        account_id: accountData.account_id,
-        account_firstname: accountData.account_firstname,
-        account_lastname: accountData.account_lastname,
-        account_email: accountData.account_email,
-        account_type: accountData.account_type || "Client",
-      };
-
-      // Set cookie
-      res.cookie("jwt", accessToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        maxAge: 3600000,
-        sameSite: "Lax",
-        path: "/",
-      });
-
-      req.flash("notice", `Welcome back, ${tokenPayload.account_firstname}!`);
-
-      return res.redirect("/account/");
-    } else {
+    // Compare password
+    const isValidPassword = await bcrypt.compare(
+      account_password,
+      accountData.account_password
+    );
+    if (!isValidPassword) {
       req.flash("notice", "Please check your credentials and try again.");
       return res.status(400).render("account/login", {
         title: "Login",
@@ -257,6 +242,36 @@ accountController.accountLogin = async function (req, res) {
         account_email,
       });
     }
+
+    // Create JWT payload
+    const tokenPayload = {
+      account_id: accountData.account_id,
+      account_firstname: accountData.account_firstname,
+      account_lastname: accountData.account_lastname,
+      account_email: accountData.account_email,
+      account_type: accountData.account_type || "Client",
+    };
+
+    // ✅ Generate token here (this was missing)
+    const accessToken = jwt.sign(
+      tokenPayload,
+      process.env.ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
+
+    // ✅ Set token in a secure HTTP-only cookie
+    res.cookie("jwt", accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 3600000,
+      sameSite: "Lax",
+      path: "/",
+    });
+
+    req.flash("notice", `Welcome back, ${tokenPayload.account_firstname}!`);
+    return res.redirect("/account/");
   } catch (error) {
     console.error("Login error:", error);
     req.flash("notice", "An error occurred during login.");
