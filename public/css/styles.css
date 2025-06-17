@@ -288,7 +288,7 @@ h1 {
   display: block;
   font-size: 1.1rem;
   font-weight: bold;
-  color: #222;
+  color: var(--primary-color);
   margin-top: 0.5rem;
 }
 
@@ -677,6 +677,25 @@ footer {
 
 .inventory-link:hover {
   text-decoration: underline;
+}
+
+.star-rating {
+  color: gold;
+  font-size: 1.1em;
+  margin-top: 5px;
+}
+.star.empty {
+  color: #ccc;
+}
+.namePrice .no-reviews {
+  color: #666;
+  font-size: 0.6em;
+  font-style: italic;
+  font-weight: 400;
+}
+.rating-number {
+  font-size: 0.9em;
+  color: #444;
 }
 
 /* Update Account Button */

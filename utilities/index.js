@@ -105,7 +105,7 @@ Util.buildClassificationGrid = async function (data) {
         vehicle.inv_make +
         " " +
         vehicle.inv_model +
-        'details"><img src="' +
+        ' details"><img src="' +
         vehicle.inv_thumbnail +
         '" alt="Image of ' +
         vehicle.inv_make +
@@ -132,12 +132,37 @@ Util.buildClassificationGrid = async function (data) {
         "<span>$" +
         new Intl.NumberFormat("en-US").format(vehicle.inv_price) +
         "</span>";
+
+      // ⭐ Add star rating here
+      // ⭐ Add star rating or "No Reviews Yet"
+      grid += '<div class="star-rating">';
+      if (vehicle.avg_rating !== null && vehicle.avg_rating !== undefined) {
+        const fullStars = Math.floor(vehicle.avg_rating);
+        const halfStar = vehicle.avg_rating % 1 >= 0.5 ? 1 : 0;
+        const emptyStars = 5 - fullStars - halfStar;
+
+        for (let i = 0; i < fullStars; i++) {
+          grid += '<span class="star full">&#9733;</span>'; // ★ full
+        }
+        if (halfStar) {
+          grid += '<span class="star half">&#9734;</span>'; // ☆ half (or use custom icon)
+        }
+        for (let i = 0; i < emptyStars; i++) {
+          grid += '<span class="star empty">&#9734;</span>'; // ☆ empty
+        }
+
+        // Optionally show number (e.g. 4.5)
+        grid += ` <span class="rating-number">(${vehicle.avg_rating})</span>`;
+      } else {
+        grid += '<span class="no-reviews">No Reviews Yet</span>';
+      }
+
       grid += "</div>";
       grid += "</li>";
     });
     grid += "</ul>";
   } else {
-    grid += '<p class="notice">Sorry, no matching vehicles could be found.</p>';
+    grid = '<p class="notice">Sorry, no matching vehicles could be found.</p>';
   }
   return grid;
 };

@@ -28,4 +28,27 @@ async function getAllReviews() {
   }
 }
 
-module.exports = { addReview, getAllReviews };
+async function getInventoryWithRatings() {
+  try {
+    const sql = `
+      SELECT 
+        i.inv_id,
+        i.inv_make,
+        i.inv_model,
+        i.inv_price,
+        i.inv_thumbnail,
+        ROUND(AVG(r.rating), 1) AS avg_rating
+      FROM inventory i
+      LEFT JOIN reviews r ON i.inv_id = r.inv_id
+      GROUP BY i.inv_id, i.inv_make, i.inv_model, i.inv_price, i.inv_thumbnail
+      ORDER BY i.inv_make, i.inv_model;
+    `;
+    const result = await pool.query(sql);
+    return result.rows;
+  } catch (error) {
+    console.error("Error getting inventory with ratings", error);
+    throw error;
+  }
+}
+
+module.exports = { addReview, getAllReviews, getInventoryWithRatings };

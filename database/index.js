@@ -43,13 +43,14 @@ if (process.env.NODE_ENV == "development") {
  * *************** */
 const createReviewsTable = async () => {
   const createTableQuery = `
-    CREATE TABLE IF NOT EXISTS reviews (
-      review_id SERIAL PRIMARY KEY,
-      user_id INT REFERENCES users(user_id),
-      content TEXT NOT NULL,
-      rating INT CHECK (rating BETWEEN 1 AND 5),
-      review_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
+  CREATE TABLE IF NOT EXISTS reviews (
+  review_id SERIAL PRIMARY KEY,
+  inv_id INT REFERENCES inventory(inv_id),
+  account_id INT REFERENCES account(account_id),
+  content TEXT NOT NULL,
+  rating INT CHECK (rating BETWEEN 1 AND 5),
+  review_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
   `;
 
   try {

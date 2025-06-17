@@ -35,6 +35,21 @@ invCont.buildByClassificationId = async function (req, res, next) {
   }
 };
 
+invCont.viewClassification = async (req, res) => {
+  try {
+    const vehicleData = await invModel.getInventoryWithRatings();
+    const grid = await Util.buildClassificationGrid(vehicleData);
+    res.render("inventory/classification", {
+      title: "Browse Inventory",
+      nav: await utilities.getNav(),
+      grid,
+    });
+  } catch (error) {
+    console.error("Error rendering classification view:", error);
+    res.status(500).send("Server error");
+  }
+};
+
 /* ***************************
  *  Get all classifications for nav
  * ************************** */
