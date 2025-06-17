@@ -138,10 +138,9 @@ accountController.registerAccount = async (req, res) => {
         `Congratulations ${account_firstname}, you're now registered and logged in!`
       );
 
-      // Store user data in session if needed for the next request
       req.session.user = user;
 
-      // Correct: Use redirect to send to the management ROUTE
+    
       return res.redirect("/account/management");
     } else {
       throw new Error("Registration failed");
