@@ -62,6 +62,16 @@ app.use(function (req, res, next) {
  *************************/
 app.use(Util.checkJWTToken);
 
+// Middleware to set user for all views
+app.use((req, res, next) => {
+  if (req.user) {
+    res.locals.user = req.user;
+  } else {
+    res.locals.user = null;
+  }
+  next();
+});
+
 /* ***********************
  * View Engine Setup
  *************************/

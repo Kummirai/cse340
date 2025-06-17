@@ -17,35 +17,20 @@ exports.checkLogin = (req, res, next) => {
  * Middleware to check token validity
  **************************************** */
 Util.checkJWTToken = (req, res, next) => {
-  const token = req.cookies?.jwt;
-
+  const token = req.cookies.jwt;
   if (!token) {
-    res.locals.user = null;
-    res.locals.loggedin = 0;
+    req.user = null;
     return next();
   }
 
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-    if (err) {
-      res.clearCookie("jwt");
-      res.locals.user = null;
-      res.locals.loggedin = 0;
-      return next();
-    }
-
-    // Standardize user object
-    req.user = {
-      account_id: decoded.id,
-      account_firstname: decoded.firstname,
-      account_lastname: decoded.lastname,
-      account_email: decoded.email,
-      account_type: decoded.type,
-    };
-
-    res.locals.user = req.user;
-    res.locals.loggedin = 1;
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
     next();
-  });
+  } catch (err) {
+    req.user = null;
+    next();
+  }
 };
 
 /* ************************
