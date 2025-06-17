@@ -51,6 +51,15 @@ h3 {
   padding: 1rem 0;
 }
 
+.reviews p {
+  margin: 0.4rem 0;
+}
+
+.reviews a {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
 .review-card {
   border: 1px solid #ddd;
   padding: 1rem;
