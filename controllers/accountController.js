@@ -43,12 +43,41 @@ accountController.updateAccountInfo = async (req, res) => {
     req.body;
 
   try {
-    await accountModel.updateAccountInfo(
+    const updatedAccount = await accountModel.updateAccountInfo(
       account_id,
       account_firstname,
       account_lastname,
       account_email
     );
+
+    // Update session data
+    req.session.user = {
+      ...req.session.user,
+      account_firstname,
+      account_lastname,
+      account_email,
+    };
+
+    // Update JWT token
+    const token = jwt.sign(
+      {
+        id: account_id,
+        firstname: account_firstname,
+        lastname: account_lastname,
+        email: account_email,
+        type: req.session.user.account_type || "Client",
+      },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 3600000,
+      sameSite: "Lax",
+      path: "/",
+    });
 
     req.flash("notice", "Your account information has been updated.");
     res.redirect("/account/management");
@@ -84,6 +113,11 @@ accountController.updatePassword = async (req, res) => {
     // Update password
     await accountModel.updatePassword(account_id, hashedPassword);
 
+    // Update session if needed
+    if (req.session.user) {
+      req.session.user.account_password = hashedPassword;
+    }
+
     req.flash("notice", "Your password has been updated.");
     res.redirect("/account/management");
   } catch (error) {
@@ -91,7 +125,6 @@ accountController.updatePassword = async (req, res) => {
     res.redirect(`/account/update/${account_id}`);
   }
 };
-
 /* ****************************************
  *  Deliver registration view
  * ************************************ */

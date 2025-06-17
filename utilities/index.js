@@ -7,39 +7,36 @@ require("dotenv").config();
 /* ****************************************
  * Middleware to check token validity
  **************************************** */
-// utilities/index.js
-
-Util.checkJWTToken = async (req, res, next) => {
-  console.log("Checking JWT for path:", req.path); // Debug
-
-  // Skip for public routes
-  if (req.path === "/account/login" || req.path === "/account/register") {
-    return next();
-  }
-
+Util.checkJWTToken = (req, res, next) => {
   const token = req.cookies?.jwt;
-  console.log("Token found:", !!token); // Debug
 
   if (!token) {
-    console.log("No JWT token found");
     res.locals.user = null;
     res.locals.loggedin = 0;
     return next();
   }
 
-  try {
-    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    console.log("Decoded user:", decoded); // Debug
-    res.locals.user = decoded;
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+    if (err) {
+      res.clearCookie("jwt");
+      res.locals.user = null;
+      res.locals.loggedin = 0;
+      return next();
+    }
+
+    // Standardize user object
+    req.user = {
+      account_id: decoded.id,
+      account_firstname: decoded.firstname,
+      account_lastname: decoded.lastname,
+      account_email: decoded.email,
+      account_type: decoded.type,
+    };
+
+    res.locals.user = req.user;
     res.locals.loggedin = 1;
     next();
-  } catch (error) {
-    console.error("JWT Error:", error.message);
-    res.clearCookie("jwt");
-    res.locals.user = null;
-    res.locals.loggedin = 0;
-    next();
-  }
+  });
 };
 
 /* ************************
