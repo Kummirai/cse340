@@ -27,18 +27,15 @@ async function registerAccount(
  * Return account data using email address
  * ***************************** */
 async function getAccountByEmail(account_email) {
-  console.log("fetching user!");
-  console.log(`I m searching for this email :${account_email}`);
   try {
     const result = await pool.query(
       "SELECT account_id, account_firstname, account_lastname, account_email, account_type, account_password FROM account WHERE account_email = $1",
       [account_email]
     );
-    console.log(result.rows);
-
-    return result.rows[0];
+    return result.rows[0] || null; // Return null if no account found
   } catch (error) {
-    return new Error("No matching email found");
+    console.error("Error fetching account by email:", error);
+    throw error; // Throw error to be caught by controller
   }
 }
 

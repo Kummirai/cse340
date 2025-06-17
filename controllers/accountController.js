@@ -110,6 +110,9 @@ accountController.buildRegister = async (req, res) => {
 /* ****************************************
  *  Process Registration
  * *************************************** */
+/* ****************************************
+ *  Process Registration
+ * *************************************** */
 accountController.registerAccount = async (req, res) => {
   console.log("Registering account!");
   let nav = await utilities.getNav();
@@ -121,8 +124,21 @@ accountController.registerAccount = async (req, res) => {
   } = req.body;
 
   try {
-    const hashedPassword = await bcrypt.hash(account_password, 10);
+    // First check if email exists
+    const existingAccount = await accountModel.getAccountByEmail(account_email);
+    if (existingAccount) {
+      req.flash("notice", "An account with this email already exists.");
+      return res.status(400).render("account/register", {
+        title: "Registration",
+        nav,
+        errors: null,
+        account_firstname,
+        account_lastname,
+        account_email,
+      });
+    }
 
+    const hashedPassword = await bcrypt.hash(account_password, 10);
     const user = await accountModel.registerAccount(
       account_firstname,
       account_lastname,
@@ -139,8 +155,6 @@ accountController.registerAccount = async (req, res) => {
       );
 
       req.session.user = user;
-
-    
       return res.redirect("/account/management");
     } else {
       throw new Error("Registration failed");
