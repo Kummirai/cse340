@@ -4,6 +4,15 @@ const validator = require("validator");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
+exports.checkLogin = (req, res, next) => {
+  if (req.session?.user) {
+    next();
+  } else {
+    req.flash("error", "You must be logged in to do that.");
+    res.redirect("/account/login");
+  }
+};
+
 /* ****************************************
  * Middleware to check token validity
  **************************************** */
@@ -133,32 +142,33 @@ Util.buildClassificationGrid = async function (data) {
         new Intl.NumberFormat("en-US").format(vehicle.inv_price) +
         "</span>";
 
-      // ⭐ Add star rating here
-      // ⭐ Add star rating or "No Reviews Yet"
+      // ⭐ Star rating with count and link
       grid += '<div class="star-rating">';
-      if (vehicle.avg_rating !== null && vehicle.avg_rating !== undefined) {
+      if (vehicle.avg_rating !== null && vehicle.review_count > 0) {
         const fullStars = Math.floor(vehicle.avg_rating);
         const halfStar = vehicle.avg_rating % 1 >= 0.5 ? 1 : 0;
         const emptyStars = 5 - fullStars - halfStar;
 
+        grid += `<a href="/reviews/${vehicle.inv_id}" title="Read ${vehicle.review_count} reviews">`;
+
         for (let i = 0; i < fullStars; i++) {
-          grid += '<span class="star full">&#9733;</span>'; // ★ full
+          grid += '<span class="star full">&#9733;</span>'; // ★
         }
         if (halfStar) {
-          grid += '<span class="star half">&#9734;</span>'; // ☆ half (or use custom icon)
+          grid += '<span class="star half">&#9734;</span>'; // ☆
         }
         for (let i = 0; i < emptyStars; i++) {
-          grid += '<span class="star empty">&#9734;</span>'; // ☆ empty
+          grid += '<span class="star empty">&#9734;</span>';
         }
 
-        // Optionally show number (e.g. 4.5)
-        grid += ` <span class="rating-number">(${vehicle.avg_rating})</span>`;
+        grid += ` <span class="rating-number">(${vehicle.avg_rating} from ${
+          vehicle.review_count
+        } review${vehicle.review_count > 1 ? "s" : ""})</span>`;
+        grid += "</a>";
       } else {
         grid += '<span class="no-reviews">No Reviews Yet</span>';
       }
-
       grid += "</div>";
-      grid += "</li>";
     });
     grid += "</ul>";
   } else {

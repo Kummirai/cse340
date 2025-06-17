@@ -698,6 +698,22 @@ footer {
   color: #444;
 }
 
+.review-card {
+  border: 1px solid #ccc;
+  padding: 1em;
+  margin: 1em 0;
+  background: #f9f9f9;
+  border-radius: 10px;
+}
+.review-card .stars {
+  color: gold;
+  font-size: 1.1em;
+}
+.review-card .date {
+  font-size: 0.8em;
+  color: #555;
+}
+
 /* Update Account Button */
 .btn-edit {
   display: inline-block;

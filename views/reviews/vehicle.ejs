@@ -1,0 +1,57 @@
+<h1><%= title %></h1>
+<% if (messages.notice) { %>
+<div class="flash notice"><%= messages.notice %></div>
+<% } %> <% if (messages.error) { %>
+<div class="flash error"><%= messages.error %></div>
+<% } %>
+
+<section class="vehicle-review-summary">
+  <img
+    src="<%= vehicle.inv_thumbnail %>"
+    alt="Image of <%= vehicle.inv_make %> <%= vehicle.inv_model %>"
+  />
+  <h2><%= vehicle.inv_make %> <%= vehicle.inv_model %></h2>
+  <p><%= vehicle.inv_description %></p>
+</section>
+
+<section class="reviews">
+  <h3>User Reviews</h3>
+
+  <% if (reviews.length > 0) { %> <% reviews.forEach((review) => { %>
+  <div class="review-card">
+    <p>
+      <strong><%= review.reviewer %></strong> rated it
+      <span class="stars">
+        <% for (let i = 0; i < review.rating; i++) { %>★<% } %> <% for (let i =
+        review.rating; i < 5; i++) { %>☆<% } %>
+      </span>
+    </p>
+    <p><%= review.content %></p>
+    <p class="date">
+      Posted on <%= new Date(review.review_date).toLocaleDateString() %>
+    </p>
+  </div>
+  <% }); %> <% } else { %>
+  <p>No reviews for this vehicle yet.</p>
+  <% } %> <% if (typeof user !== 'undefined') { %>
+  <section class="write-review">
+    <h3>Write a Review</h3>
+    <form action="/reviews/<%= vehicle.inv_id %>" method="POST">
+      <label for="rating">Rating (1–5):</label>
+      <select id="rating" name="rating" required>
+        <option value="">Choose</option>
+        <% for (let i = 1; i <= 5; i++) { %>
+        <option value="<%= i %>"><%= i %></option>
+        <% } %>
+      </select>
+
+      <label for="content">Your Review:</label>
+      <textarea id="content" name="content" rows="4" required></textarea>
+
+      <button type="submit">Submit Review</button>
+    </form>
+  </section>
+  <% } else { %>
+  <p><a href="/account/login">Log in</a> to write a review.</p>
+  <% } %>
+</section>
