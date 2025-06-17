@@ -26,12 +26,13 @@ router.post("/login", utilities.handleErrors(accountController.accountLogin));
 router.get(
   "/",
   regValidate.checkLoginData,
-  utilities.handleErrors(accountController.buildAccountManagement)
+  utilities.handleErrors(accountController.accountManagement)
 );
+
 router.get(
   "/management",
   regValidate.checkLoginData,
-  utilities.handleErrors(accountController.buildAccountManagement)
+  utilities.handleErrors(accountController.accountManagement)
 );
 
 // Logout route

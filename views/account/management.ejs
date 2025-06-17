@@ -3,7 +3,6 @@
 <h2>
   Welcome <%= user.account_firstname %> <%= user.account_lastname || '' %>
 </h2>
-<p>You are logged in!</p>
 
 <div class="account-info">
   <p>
@@ -17,7 +16,6 @@
 <div class="account-actions">
   <a href="/account/edit/<%= user.account_id %>">Edit account information</a>
   <br /><br />
-  <a href="/account/logout">Logout</a>
 </div>
 <% } else { %>
 <p>Please <a href="/account/login">log in</a> to access your account.</p>

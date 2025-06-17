@@ -45,24 +45,28 @@ accountController.registerAccount = async (req, res) => {
   } = req.body;
 
   try {
-    // Hash the password with bcrypt
     const hashedPassword = await bcrypt.hash(account_password, 10);
 
-    const regResult = await accountModel.registerAccount(
+    const user = await accountModel.registerAccount(
       account_firstname,
       account_lastname,
       account_email,
       hashedPassword
     );
-    const token = accessToken(regResult.id);
+    const token = accessToken(user.id);
     res.cookie("jwt", token, { httpOnly: true, maxAge: 3600000 });
 
-    if (regResult) {
+    if (user) {
       req.flash(
         "notice",
-        `Congratulations ${account_firstname}, you're now registered! Please log in.`
+        `Congratulations ${account_firstname}, you're now registered and logged in!`
       );
-      return res.redirect("/account/login");
+
+      // Store user data in session if needed for the next request
+      req.session.user = user;
+
+      // Correct: Use redirect to send to the management ROUTE
+      return res.redirect("/account/management");
     } else {
       throw new Error("Registration failed");
     }
@@ -102,7 +106,6 @@ accountController.accountLogin = async function (req, res) {
     }
 
     if (await bcrypt.compare(account_password, accountData.account_password)) {
-      // Create token payload (remove sensitive data)
       const tokenPayload = {
         account_id: accountData.account_id,
         account_firstname: accountData.account_firstname,
@@ -122,7 +125,6 @@ accountController.accountLogin = async function (req, res) {
 
       req.flash("notice", `Welcome back, ${tokenPayload.account_firstname}!`);
 
-      // Redirect to account page - middleware will handle setting res.locals.user
       return res.redirect("/account/");
     } else {
       req.flash("notice", "Please check your credentials and try again.");
@@ -161,21 +163,14 @@ accountController.buildLogin = async (req, res) => {
 /* ****************************************
  *  Account management view
  * ************************************ */
-accountController.buildAccountManagement = async function (req, res) {
+accountController.accountManagement = async (req, res) => {
+  console.log(req.session.user.rows[0]);
+
   let nav = await utilities.getNav();
-
-  console.log("Current user data:", res.locals.user); // Debug log
-
-  if (!res.locals.user) {
-    req.flash("notice", "Please log in to access your account.");
-    return res.redirect("/account/login");
-  }
-
   res.render("account/management", {
     title: "Account Management",
     nav,
-    errors: null,
-    ...res.locals.user,
+    user: req.session.user.rows[0],
   });
 };
 
