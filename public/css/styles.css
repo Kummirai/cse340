@@ -628,7 +628,7 @@ footer {
 }
 
 .btn-primary {
-  background-color: #3498db;
+  background-color: var(--primary-color);
   color: white;
   padding: 0.75rem 1.5rem;
   border: none;
@@ -639,7 +639,7 @@ footer {
 }
 
 .btn-primary:hover {
-  background-color: #2980b9;
+  background-color: #af0909;
 }
 
 .flash-message {
@@ -656,6 +656,44 @@ footer {
 .flash-message.error {
   background-color: #f8d7da;
   color: #721c24;
+}
+/* Inventory Management Section */
+.inventory-management {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+}
+
+.inventory-management h3 {
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.inventory-link {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.inventory-link:hover {
+  text-decoration: underline;
+}
+
+/* Update Account Button */
+.btn-edit {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: #3498db;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: background-color 0.3s;
+  margin: 1.5rem 0;
+}
+
+.btn-edit:hover {
+  background-color: #2980b9;
 }
 
 /* Account Management Styles */
@@ -676,13 +714,13 @@ footer {
 }
 
 .welcome-message {
-  color: #3498db;
+  color: var(--text-color);
   text-align: center;
   margin-bottom: 2rem;
 }
 
 .user-name {
-  color: #e74c3c;
+  color: var(--primary-color);
   font-weight: bold;
 }
 
@@ -713,7 +751,7 @@ footer {
 
 .info-label {
   font-weight: bold;
-  color: #7f8c8d;
+  color: var(--text-color);
   min-width: 120px;
 }
 
@@ -736,13 +774,12 @@ footer {
 }
 
 .btn-edit {
-  background-color: #3498db;
+  background-color: var(--primary-color);
   color: white;
-  border: 1px solid #2980b9;
 }
 
 .btn-edit:hover {
-  background-color: #2980b9;
+  background-color: #a7150b;
 }
 
 .login-prompt {
@@ -752,7 +789,7 @@ footer {
 }
 
 .login-link {
-  color: #3498db;
+  color: var(--primary-color);
   text-decoration: none;
   font-weight: bold;
 }
@@ -775,10 +812,7 @@ footer {
   .info-label {
     margin-bottom: 0.3rem;
   }
-}
 
-/* Responsive Design */
-@media (max-width: 768px) {
   .vehicle-detail {
     grid-template-columns: 1fr;
     padding: 1rem;
@@ -792,10 +826,7 @@ footer {
   .detail-container {
     margin-bottom: 30px;
   }
-}
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
   #inv-display {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1.5rem;

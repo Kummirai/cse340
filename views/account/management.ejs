@@ -1,24 +1,24 @@
 <h1 class="account-title"><%- title %></h1>
-<%- messages() %> <% if (locals.user) { %>
+
+<% if (typeof messages === 'function') { %> <%- messages() %> <% } %> <% if
+(locals.user) { %>
 <div class="account-container">
+  <!-- Greeting for all account types -->
   <div class="account-header">
     <h2 class="welcome-message">
-      Welcome
-      <span class="user-name"
-        ><%= user.account_firstname %> <%= user.account_lastname || '' %></span
-      >
+      Welcome <span class="user-name"><%= user.account_firstname %></span>
     </h2>
   </div>
 
+  <!-- Account Information -->
   <div class="account-info">
     <div class="info-card">
       <h3>Account Information</h3>
       <p class="info-item">
         <span class="info-label">Name:</span>
-        <span class="info-value"
-          ><%= user.account_firstname %> <%= user.account_lastname || ''
-          %></span
-        >
+        <span class="info-value">
+          <%= user.account_firstname %> <%= user.account_lastname || '' %>
+        </span>
       </p>
       <p class="info-item">
         <span class="info-label">Email:</span>
@@ -31,11 +31,21 @@
     </div>
   </div>
 
+  <!-- Update Account Link (for all users) -->
   <div class="account-actions">
-    <a href="/account/update/<%= user.account_id %>" class="btn btn-edit"
-      >Edit Account Information</a
-    >
+    <a href="/account/update/<%= user.account_id %>" class="btn btn-edit">
+      Update Account Information
+    </a>
   </div>
+
+  <% if (user.account_type === 'Employee' || user.account_type === 'Admin') { %>
+  <div class="inventory-management">
+    <h3>Inventory Management</h3>
+    <p>
+      <a href="/inv" class="inventory-link">Access Inventory Management</a>
+    </p>
+  </div>
+  <% } %>
 </div>
 <% } else { %>
 <div class="login-prompt">
