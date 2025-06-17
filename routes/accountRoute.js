@@ -4,9 +4,11 @@ const router = new express.Router();
 const accountController = require("../controllers/accountController");
 const utilities = require("../utilities/");
 const regValidate = require("../utilities/validation");
+const Util = require("../utilities/");
 
 // Apply JWT check to all account routes
 router.use(utilities.checkJWTToken);
+// router.use("*", Util.checkCurrentUser);
 
 // Registration routes (public)
 router.get(

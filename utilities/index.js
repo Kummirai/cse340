@@ -43,6 +43,33 @@ Util.checkJWTToken = async (req, res, next) => {
 };
 
 /* ************************
+ * Check current user
+ ************************** */
+Util.checkCurrentUser = async (req, res, next) => {
+  const token = req.cookies?.jwt;
+
+  if (token) {
+    jwt.verify(
+      token,
+      process.env.ACCESS_TOKEN_SECRET,
+      async (err, decodedToken) => {
+        if (err) {
+          console.error(err);
+          res.locals.user = null;
+        } else {
+          const user = await user.findById(decodedToken.id);
+          res.locals.user = user;
+          next();
+        }
+      }
+    );
+  } else {
+    res.locals.user = null;
+    next();
+  }
+};
+
+/* ************************
  * Constructs the nav HTML unordered list
  ************************** */
 Util.getNav = async function () {
