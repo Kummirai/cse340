@@ -1,5 +1,6 @@
 const { Pool } = require("pg");
 require("dotenv").config();
+
 /* ***************
  * Connection Pool
  * SSL Object needed for local testing of app
@@ -31,8 +32,33 @@ if (process.env.NODE_ENV == "development") {
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: {
-      rejectUnauthorized: false, 
+      rejectUnauthorized: false,
     },
   });
   module.exports = pool;
 }
+
+/* ***************
+ * Create Reviews Table
+ * *************** */
+const createReviewsTable = async () => {
+  const createTableQuery = `
+    CREATE TABLE IF NOT EXISTS reviews (
+      review_id SERIAL PRIMARY KEY,
+      user_id INT REFERENCES users(user_id),
+      content TEXT NOT NULL,
+      rating INT CHECK (rating BETWEEN 1 AND 5),
+      review_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+  `;
+
+  try {
+    await pool.query(createTableQuery);
+    console.log("Reviews table created successfully or already exists");
+  } catch (error) {
+    console.error("Error creating reviews table:", error);
+    throw error;
+  }
+};
+
+createReviewsTable().catch(console.error);

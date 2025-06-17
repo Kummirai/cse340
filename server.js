@@ -16,6 +16,7 @@ const pool = require("./database/");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const Util = require("./utilities/");
+const reviewRoutes = require("./routes/reviewRoute");
 
 /* ***********************
  * Middleware
@@ -76,6 +77,7 @@ app.use(static);
 app.use("/account", accountRoute);
 app.use("/inv", inventoryRoute);
 app.get("/", utilities.handleErrors(baseController.buildHome));
+app.use("/reviews", reviewRoutes);
 
 app.use(async (req, res, next) => {
   next({ status: 404, message: "Sorry we appear to have lost the page!" });

@@ -1,0 +1,17 @@
+<h2>Add Your Review</h2>
+<form action="/reviews/add" method="POST">
+  <label for="content">Your Review</label><br />
+  <textarea name="content" id="content" required></textarea><br /><br />
+
+  <label for="rating">Rating (1–5):</label>
+  <input
+    type="number"
+    name="rating"
+    id="rating"
+    min="1"
+    max="5"
+    required
+  /><br /><br />
+
+  <button type="submit">Submit</button>
+</form>
