@@ -8,6 +8,15 @@ const accountModel = require("../models/account-model");
 const accountController = {};
 
 /* ****************************************
+ *  Create jwt token
+ * ************************************ */
+const accessToken = (id) => {
+  return jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: "1h",
+  });
+};
+
+/* ****************************************
  *  Deliver registration view
  * ************************************ */
 accountController.buildRegister = async (req, res) => {
@@ -37,16 +46,16 @@ accountController.registerAccount = async (req, res) => {
 
   try {
     // Hash the password with bcrypt
-    const hashedPassword = await bcrypt.hash(account_password, 10); // 10 salt rounds
+    const hashedPassword = await bcrypt.hash(account_password, 10);
 
     const regResult = await accountModel.registerAccount(
       account_firstname,
       account_lastname,
       account_email,
-      hashedPassword // Store the hashed password
+      hashedPassword
     );
-
-    console.log(regResult);
+    const token = accessToken(regResult.id);
+    res.cookie("jwt", token, { httpOnly: true, maxAge: 3600000 });
 
     if (regResult) {
       req.flash(
@@ -102,20 +111,13 @@ accountController.accountLogin = async function (req, res) {
         account_type: accountData.account_type || "Client",
       };
 
-      // Create JWT token
-      const accessToken = jwt.sign(
-        tokenPayload,
-        process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "1h" }
-      );
-
       // Set cookie
       res.cookie("jwt", accessToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production", 
-        maxAge: 3600000, 
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 3600000,
         sameSite: "Lax",
-        path: "/", 
+        path: "/",
       });
 
       req.flash("notice", `Welcome back, ${tokenPayload.account_firstname}!`);
