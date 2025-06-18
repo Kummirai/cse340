@@ -12,13 +12,29 @@ async function getClassifications() {
 /* ***************************
  *  Get all inventory items by classification_id
  * ************************** */
+// In your invModel.js
 async function getInventoryByClassificationId(classification_id) {
   try {
     const data = await pool.query(
-      `SELECT * FROM public.inventory AS i 
-       JOIN public.classification AS c 
-       ON i.classification_id = c.classification_id 
-       WHERE i.classification_id = $1`,
+      `SELECT 
+         i.*, 
+         c.classification_name,
+         COALESCE(ROUND(AVG(r.rating)::numeric, 1), 0) AS avg_rating,
+         COUNT(r.review_id) AS review_count
+       FROM 
+         public.inventory AS i 
+       JOIN 
+         public.classification AS c 
+         ON i.classification_id = c.classification_id 
+       LEFT JOIN 
+         public.reviews AS r 
+         ON i.inv_id = r.inv_id
+       WHERE 
+         i.classification_id = $1
+       GROUP BY 
+         i.inv_id, c.classification_name
+       ORDER BY
+         i.inv_make, i.inv_model`,
       [classification_id]
     );
     return data.rows;

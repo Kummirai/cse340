@@ -255,6 +255,7 @@ h1 {
 #inv-display li a {
   text-decoration: none;
   color: #333;
+  display: flex;
 }
 
 #inv-display img {
@@ -942,4 +943,48 @@ footer {
     justify-content: center;
     align-items: center;
   }
+}
+
+.star-rating {
+  margin: 5px 0;
+  font-size: 1.2em;
+}
+
+.star-rating .rating-number {
+  font-size: 0.65em;
+  color: var(--text-color);
+  font-weight: 400;
+}
+
+.star {
+  color: #ccc;
+  display: inline-block;
+}
+
+.star.full {
+  color: gold;
+}
+
+.star.half {
+  position: relative;
+  color: #ccc;
+}
+
+.star.half:before {
+  content: "★";
+  position: absolute;
+  left: 0;
+  width: 50%;
+  overflow: hidden;
+  color: gold;
+}
+
+.no-reviews {
+  color: #666;
+  font-style: italic;
+  text-decoration: none;
+}
+
+.no-reviews:hover {
+  text-decoration: underline;
 }
