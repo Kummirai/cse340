@@ -24,7 +24,9 @@ exports.submitReview = async (req, res) => {
 exports.postReview = async (req, res) => {
   const { rating, content } = req.body;
   const { inv_id } = req.params;
-  const user_id = req.session.user?.user_id;
+  const user_id = parseInt(res.locals.user.account_id);
+
+  console.log(parseInt(res.locals.user.account_id));
 
   if (!rating || !content || !user_id) {
     req.flash("error", "All fields are required.");
