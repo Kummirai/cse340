@@ -686,7 +686,7 @@ footer {
   margin-top: 5px;
 }
 .star.empty {
-  color: #ccc;
+  color: var(--primary-color);
 }
 .namePrice .no-reviews {
   color: #666;
@@ -951,23 +951,23 @@ footer {
 }
 
 .star-rating .rating-number {
-  font-size: 0.65em;
+  font-size: 0.5em;
   color: var(--text-color);
   font-weight: 400;
 }
 
 .star {
-  color: #ccc;
+  color: transparent;
   display: inline-block;
 }
 
 .star.full {
-  color: gold;
+  color: var(--primary-color);
 }
 
 .star.half {
   position: relative;
-  color: #ccc;
+  color: transparent;
 }
 
 .star.half:before {
@@ -976,11 +976,11 @@ footer {
   left: 0;
   width: 50%;
   overflow: hidden;
-  color: gold;
+  color: var(--primary-color);
 }
 
 .no-reviews {
-  color: #666;
+  color: var(--text-color);
   font-style: italic;
   text-decoration: none;
 }
