@@ -1,4 +1,7 @@
 <h2>Add Your Review</h2>
+<%- messages() %>
+<div class="flash error"><%= messages.error %></div>
+<% } %>
 <form action="/reviews/add" method="POST">
   <label for="content">Your Review</label><br />
   <textarea name="content" id="content" required></textarea><br /><br />

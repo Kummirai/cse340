@@ -1,11 +1,5 @@
 <h1><%= title %></h1>
-
-<% if (messages.notice) { %>
-<div class="flash notice"><%= messages.notice %></div>
-<% } %> <% if (messages.error) { %>
-<div class="flash error"><%= messages.error %></div>
-<% } %>
-
+<%- messages() %>
 <section class="vehicle-review-summary">
   <img
     src="<%= vehicle.inv_thumbnail %>"
@@ -55,6 +49,8 @@
     </form>
   </section>
   <% } else { %>
-  <p><a class="review-link" href="/account/login">Log in</a> to write a review.</p>
+  <p>
+    <a class="review-link" href="/account/login">Log in</a> to write a review.
+  </p>
   <% } %>
 </section>

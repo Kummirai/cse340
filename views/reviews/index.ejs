@@ -1,11 +1,12 @@
 <h2>Customer Reviews</h2>
+<%- messages() %>
 <ul>
   <% reviews.forEach(review => { %>
-    <li>
-      <strong><%= review.first_name %></strong> rated it <%= review.rating %>/5<br>
-      "<%= review.content %>"<br>
-      <em><%= new Date(review.review_date).toLocaleString() %></em>
-    </li>
-    <hr>
+  <li>
+    <strong><%= review.first_name %></strong> rated it <%= review.rating %>/5<br />
+    "<%= review.content %>"<br />
+    <em><%= new Date(review.review_date).toLocaleString() %></em>
+  </li>
+  <hr />
   <% }); %>
 </ul>

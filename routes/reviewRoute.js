@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const reviewController = require("../controllers/reviewController");
 const utilities = require("../utilities/index");
+const checkLogin = require("../utilities/index");
 
 router.get("/add", reviewController.renderReviewForm);
 router.post("/add", reviewController.submitReview);
