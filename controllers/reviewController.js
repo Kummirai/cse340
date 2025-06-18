@@ -24,11 +24,11 @@ exports.submitReview = async (req, res) => {
 exports.postReview = async (req, res) => {
   const { rating, content } = req.body;
   const { inv_id } = req.params;
-  const user_id = parseInt(res.locals.user.account_id);
+  const account_id = parseInt(res.locals.user.account_id);
 
   console.log(parseInt(res.locals.user.account_id));
 
-  if (!rating || !content || !user_id) {
+  if (!rating || !content || !account_id) {
     req.flash("error", "All fields are required.");
     return res.redirect(`/reviews/${inv_id}`);
   }
@@ -36,7 +36,7 @@ exports.postReview = async (req, res) => {
   try {
     await reviewModel.addReview({
       inv_id,
-      user_id,
+      account_id,
       rating: parseInt(rating),
       content,
     });
