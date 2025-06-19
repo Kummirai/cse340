@@ -24,7 +24,7 @@ exports.submitReview = async (req, res) => {
 exports.postReview = async (req, res) => {
   const { rating, content } = req.body;
   const { inv_id } = req.params;
-  const account_id = parseInt(res.locals.user.account_id);
+  const account_id = parseInt(res.locals.user?.account_id);
 
   console.log(parseInt(res.locals.user.account_id));
 

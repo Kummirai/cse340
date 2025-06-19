@@ -211,14 +211,15 @@ accountController.registerAccount = async (req, res) => {
 
 accountController.accountLogin = async function (req, res) {
   console.log("Trying to login a user!");
-
   const nav = await utilities.getNav();
   const { account_email, account_password } = req.body;
 
   try {
     const accountData = await accountModel.getAccountByEmail(account_email);
+    console.log("Account from DB:", accountData);
 
     if (!accountData) {
+      console.log("No account found for email:", account_email);
       req.flash("notice", "Please check your credentials and try again.");
       return res.status(400).render("account/login", {
         title: "Login",
@@ -228,12 +229,14 @@ accountController.accountLogin = async function (req, res) {
       });
     }
 
-    // Compare password
     const isValidPassword = await bcrypt.compare(
       account_password,
       accountData.account_password
     );
+    console.log("Password match?", isValidPassword);
+
     if (!isValidPassword) {
+      console.log("Invalid password for:", account_email);
       req.flash("notice", "Please check your credentials and try again.");
       return res.status(400).render("account/login", {
         title: "Login",
@@ -243,25 +246,14 @@ accountController.accountLogin = async function (req, res) {
       });
     }
 
-    // Create JWT payload
-    const tokenPayload = {
-      account_id: accountData.account_id,
-      account_firstname: accountData.account_firstname,
-      account_lastname: accountData.account_lastname,
-      account_email: accountData.account_email,
-      account_type: accountData.account_type || "Client",
-    };
+    // Set session
+    req.session.user = accountData;
 
-    // Generate token here
-    const accessToken = jwt.sign(
-      tokenPayload,
-      process.env.ACCESS_TOKEN_SECRET,
-      {
-        expiresIn: "1h",
-      }
-    );
+    // JWT
+    const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, {
+      expiresIn: "1h",
+    });
 
-    // Set token in a secure HTTP-only cookie
     res.cookie("jwt", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -270,7 +262,7 @@ accountController.accountLogin = async function (req, res) {
       path: "/",
     });
 
-    req.flash("notice", `Welcome back, ${tokenPayload.account_firstname}!`);
+    req.flash("notice", `Welcome back, ${accountData.account_firstname}!`);
     return res.redirect("/account/");
   } catch (error) {
     console.error("Login error:", error);
@@ -301,13 +293,13 @@ accountController.buildLogin = async (req, res) => {
  *  Account management view
  * ************************************ */
 accountController.accountManagement = async (req, res) => {
-  console.log(req.session.user.rows[0]);
+  console.log(req.session.user);
 
   let nav = await utilities.getNav();
   res.render("account/management", {
     title: "Account Management",
     nav,
-    user: req.session.user.rows[0],
+    user: req.session.user,
   });
 };
 
